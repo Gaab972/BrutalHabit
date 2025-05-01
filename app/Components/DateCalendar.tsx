@@ -1,21 +1,26 @@
-import { StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 import { GetDayName } from "../Functions/Format";
 import { Colors } from "../Constants/Colors";
 import { useFonts } from "expo-font";
 
 type Props = {
-    date: Date;
+    date: Date,
+    isToday: boolean,
+    isSelected: boolean,
+    index: number,
+    onSelected: (index: number) => void,
 }
 
 export const DateCalendarWidth = 38;
 
-export default function DateCalendar({date} : Props) {
+export default function DateCalendar({date, isToday, isSelected, index, onSelected} : Props) {
     var today = new Date();
     var isToday = date.getDate() == today.getDate() 
     && date.getMonth() == today.getMonth() 
     && date.getFullYear() == today.getFullYear();
 
-    var numberBackgroundColor = isToday ? Colors.tintLight : Colors.lightWhite;
+    var numberColor = isToday ? Colors.tint : Colors.black;
+    var numberBackgroundColor = isSelected ? Colors.tintLight : Colors.lightWhite;
 
     var dayName = GetDayName(date).slice(0, 3);
     var dayNumber = date.getDate();
@@ -28,12 +33,14 @@ export default function DateCalendar({date} : Props) {
         return null;
       }
 
-    return <View style={styles.Background}>
-        <Text style={styles.DayName}>{dayName}</Text>
-        <View style={[styles.NumberBackground, {backgroundColor: numberBackgroundColor}]}>
-            <Text style={styles.DayNumber}>{dayNumber}</Text>
-        </View>
-    </View>
+    return  <Pressable onPress={() => onSelected(index)}>
+            <View style={styles.Background}>
+                <Text style={styles.DayName}>{dayName}</Text>
+                <View style={[styles.NumberBackground, {backgroundColor: numberBackgroundColor}]}>
+                    <Text style={[styles.DayNumber, {color: numberColor}]}>{dayNumber}</Text>
+                </View>
+            </View>
+        </Pressable>
 }
 
 const styles = StyleSheet.create({
@@ -43,7 +50,7 @@ const styles = StyleSheet.create({
         height: 48,
         borderRadius: 6.25,
         elevation: 10,
-        alignItems: "center"
+        alignItems: "center",
     },
     DayName: {
         fontFamily: "TeachersMedium",
