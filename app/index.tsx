@@ -1,7 +1,7 @@
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import { Colors } from "./Constants/Colors";
 import { useFonts } from 'expo-font';
-import DateCalendar from "./Components/DateCalendar";
+import DateCell from "./Components/DateCell";
 import { GetDateWithDaysOffset, GetMonthName } from "./Functions/Format";
 import { useEffect, useRef, useState } from "react";
 import HabitCheckCard from "./Components/HabitCheckCard";
@@ -49,7 +49,7 @@ export default function Index() {
           data={dates}
           keyExtractor={(item) => item.toDateString()}
           renderItem={(item) => 
-          <DateCalendar 
+          <DateCell 
             date={item.item} 
             isToday={item.index == todayIndex} 
             index={item.index} 

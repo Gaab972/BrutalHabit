@@ -11,9 +11,9 @@ type Props = {
     onSelected: (index: number) => void,
 }
 
-export const DateCalendarWidth = 38;
+export const DateCellWidth = 38;
 
-export default function DateCalendar({date, isToday, isSelected, index, onSelected} : Props) {
+export default function DateCell({date, isToday, isSelected, index, onSelected} : Props) {
     var today = new Date();
     var isToday = date.getDate() == today.getDate() 
     && date.getMonth() == today.getMonth() 
@@ -46,7 +46,7 @@ export default function DateCalendar({date, isToday, isSelected, index, onSelect
 const styles = StyleSheet.create({
     Background: {
         backgroundColor: Colors.tint,
-        width: DateCalendarWidth,
+        width: DateCellWidth,
         height: 48,
         borderRadius: 6.25,
         elevation: 10,
@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
         height: 14
     },
     NumberBackground : {
-        width: DateCalendarWidth + 0.1,
+        width: DateCellWidth + 0.1,
         height: 28,
         borderRadius: 6.25,
         marginTop: 4.1,
