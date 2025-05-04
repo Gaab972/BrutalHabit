@@ -1,17 +1,15 @@
-import { StyleSheet, View, ViewProps, Text, Image } from "react-native";
+import { StyleSheet, View, Text, Image } from "react-native";
 import { Colors } from "../Constants/Colors";
 import { useFonts } from "expo-font";
-import { Ionicons } from '@expo/vector-icons';
-import { TouchableOpacity } from 'react-native';
+import { Habit } from "../Functions/Services/Service_Habit";
 
 
-type Props = ViewProps & {
+type Props = Habit & {
     name: string;
     streak: number;
-    isChecked: boolean;
 }
 
-export default function HabitCheckCard({name, streak, isChecked} : Props)
+export default function HabitCard({name, streak} : Props)
 {
     const [fontsLoaded] = useFonts({
         'Teachers-SemiBold': require('../../assets/fonts/Teachers-SemiBold.ttf'),
@@ -30,19 +28,12 @@ export default function HabitCheckCard({name, streak, isChecked} : Props)
       <View style={styles.Background}>
         <Text style={styles.Name}>{name}</Text>
         <View style={styles.StreakContainer}>
-          <Text style={styles.Streak}>{streak}</Text>
-          <Image
-            source={require("@/assets/images/flamme.png")}
-            style={{ width: 24, height: 24 }}
-          />
+            <Text style={styles.Streak}>{streak}</Text>
+            <Image
+                  source={require("@/assets/images/flamme.png")}
+                  style={{ width: 30, height: 30 }}
+                />
         </View>
-        <TouchableOpacity style={styles.Checkbox}>
-          {isChecked ? (
-            <Ionicons name="checkbox" size={25} color="#2F90EB" />
-          ) : (
-            <Ionicons name="square-outline" size={25} color="#aaa" />
-          )}
-        </TouchableOpacity>
       </View>
     );
 }
@@ -53,23 +44,31 @@ const styles = StyleSheet.create({
         width: "90%",
         height: 60,
         borderRadius: 20,
-        backgroundColor: Colors["greyWhite"]
+        backgroundColor: Colors["greyWhite"],
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between"
     },
     Name: {
         fontFamily: "Teachers-SemiBold",
-        marginTop: 13.5,
         marginLeft: 18.5,
+        fontSize: 16,
+   
     },
     StreakContainer: {
         flexDirection: "row",
-        alignItems: "center"
+        marginRight: 18.5,
+        alignItems : "center"
     },
     Streak: {
-        fontFamily: "TeachersMedium",
+        fontFamily: "Teachers-SemiBold",
+        fontSize: 16,
         marginLeft: 18.5,
     },
     Emoji: {
-        fontSize: 14,
+        fontSize: 18,
+        marginLeft : 2,
+        paddingBottom: 8 
     },
     Checkbox : {
         position: "absolute",
