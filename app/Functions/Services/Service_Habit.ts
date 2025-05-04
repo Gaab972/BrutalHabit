@@ -8,19 +8,29 @@ import {
   updateDoc,
   deleteDoc,
   doc,
+  Timestamp,
 } from 'firebase/firestore';
 
-export type HabitData = {
-    name: string;
-    description?: string;
-    frequency: string[];
-    brutalMode: boolean;
+type HabitData = {
+  name: string;
+  description?: string;
+  frequency: string[];
+  brutalMode: boolean;
 };
+
+export type Habit = HabitData & {
+    id: string;
+    userId: string;
+    streak: number;
+    maxStreak: number;
+    createdAt: Date;
+}
 
 export const AddHabit = async (habit: HabitData, userId: string) => {
     const newHabit = {
         ...habit,
         userId,
+        streak: 0,
         maxStreak: 0,
         description: habit.description ?? "",
         createdAt: new Date(),
@@ -30,10 +40,26 @@ export const AddHabit = async (habit: HabitData, userId: string) => {
     return { id: docRef.id, ...newHabit };
 };
 
-export const GetHabit = async (userId: string) => {
+export const GetHabits = async (userId: string) => {
     const queryUserHabits = query(collection(database, "habits"), where("userId", "==", userId))
     const snapshot = await getDocs(queryUserHabits);
-    return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data()}))
+    return snapshot.docs.map((doc) => {
+      const data = doc.data();
+      return {
+        id: doc.id,
+        name: data.name,
+        description: data.description ?? "",
+        frequency: data.frequency,
+        brutalMode: data.brutalMode,
+        userId: data.userId,
+        streak: data.streak,
+        maxStreak: data.maxStreak,
+        createdAt:
+          data.createdAt instanceof Timestamp
+            ? data.createdAt.toDate()
+            : new Date(data.createdAt),
+      };
+    });
 };
 
 export const updateHabit = async (habitId: string, updates: Partial<HabitData>) => {
