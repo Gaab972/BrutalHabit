@@ -1,0 +1,91 @@
+import { StyleSheet, View, Text, Image } from "react-native";
+import { Colors } from "../Constants/Colors";
+import { useFonts } from "expo-font";
+import { Habit } from "../Functions/Services/Service_Habit";
+
+
+export default function HabitCreateCard()
+{
+    const [fontsLoaded] = useFonts({
+        'Teachers-SemiBold': require('../../assets/fonts/Teachers-SemiBold.ttf'),
+      });
+
+      const [fontsLoaded2] = useFonts({
+        'TeachersMedium': require('../../assets/fonts/TeachersMedium.ttf'),
+
+      });
+    
+      if (!fontsLoaded || !fontsLoaded2) {
+        return null;
+      }
+
+    return (
+      <View style={styles.Background}>
+        <View style={{height: "100%", justifyContent: "center"}}>
+            <Text style={styles.CategoryTitle}>{"Name"}</Text>
+            <Text style={styles.Name}>{"Sport"}</Text>
+        </View>
+
+        <View style={styles.StreakContainer}>
+            <Text style={styles.Streak}>{0}</Text>
+            <Image
+                  source={require("@/assets/images/flamme.png")}
+                  style={{ width: 30, height: 30 }}
+                />
+        </View>
+      </View>
+    );
+}
+
+const styles = StyleSheet.create({
+    Background: {
+        elevation: 3,
+        width: "90%",
+        height: 60,
+        borderRadius: 20,
+        backgroundColor: Colors["greyWhite"],
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between",
+        alignSelf : "center"
+    },
+    CategoryTitle: {
+        fontSize: 16,
+        left: 23,
+        top: -14,
+        position: "absolute",
+        fontFamily: "Teachers-Bold",
+        fontWeight: "bold",
+        textAlign: "center",
+        color: Colors["black"],
+        backgroundColor: Colors.greyWhite,
+        opacity: 0.75,
+      },
+    Name: {
+        fontFamily: "Teachers-SemiBold",
+        marginLeft: 23,
+        fontSize: 16,
+    },
+    StreakContainer: {
+        flexDirection: "row",
+        marginRight: 18.5,
+        alignItems : "center"
+    },
+    Streak: {
+        fontFamily: "Teachers-SemiBold",
+        fontSize: 16,
+        marginLeft: 18.5,
+    },
+    Emoji: {
+        fontSize: 18,
+        marginLeft : 2,
+        paddingBottom: 8 
+    },
+    Checkbox : {
+        position: "absolute",
+        alignSelf: "flex-end",
+        top: "50%",
+        transform: [{ translateY: -25 / 2 }], // ou valeur fixe ex. -20
+        right: 28,
+    }
+})
