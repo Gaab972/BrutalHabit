@@ -1,20 +1,23 @@
 import { View, StyleSheet, Text } from "react-native";
 import Colors from "../Constants/Colors";
 import HabitCreateCard from "../Components/HabitCreateCard";
-import HabitCardTemplate from "../Components/HabitCardTemplate";
-import HabitCard from "../Components/HabitCard";
+import { useState } from "react";
+import FrequencySelector from "../Components/FrequencySelector";
 
 export default function CreateHabitScreen()
 {
-    return <View style={styles.MainBackground}>
-            <Text style={styles.Title}>New habit</Text>
-            <View style={{width: "100%", marginTop: 30}}>
-              <HabitCardTemplate/>
+  const [name, setName] = useState("");
+  const [selectedDays, setSelectedDays] = useState<number[]>([]);
 
-              <Text style={styles.CategoryTitle}>Frequency</Text>
-              <Text style={styles.CategoryTitle}>Bruttal Mode</Text>
-            </View>
-        </View>
+  return <View style={styles.MainBackground}>
+          <Text style={styles.Title}>New habit</Text>
+          <View style={{width: "100%", marginTop: 30}}>
+            <HabitCreateCard onNameChange={setName}/>
+            <Text style={styles.CategoryTitle}>Frequency</Text>
+            <FrequencySelector selectedDaysIndex={selectedDays} SetSelectedDaysIndex={setSelectedDays}/>
+            <Text style={styles.CategoryTitle}>Brutal Mode</Text>
+          </View>
+      </View>
 }
 
 const styles = StyleSheet.create({
@@ -42,16 +45,5 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: Colors["black"],
     opacity: 0.75,
-  },
-  HabitBackground: {
-    flex: 1,
-    width: "100%",
-    marginTop: 43,
-    elevation: 20,
-    borderRadius: 30,
-    backgroundColor: Colors["greyWhite"],
-    paddingVertical: 22,
-    gap: 10,
-    alignItems: "center",
   },
 });
