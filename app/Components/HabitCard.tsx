@@ -1,7 +1,8 @@
-import { StyleSheet, View, Text, Image } from "react-native";
+import { StyleSheet, View, Text, Image, ViewProps } from "react-native";
 import { Colors } from "../Constants/Colors";
 import { useFonts } from "expo-font";
 import { Habit } from "../Functions/Services/Service_Habit";
+import HabitCardTemplate from "./HabitCardTemplate";
 
 
 type Props = Habit & {
@@ -9,7 +10,7 @@ type Props = Habit & {
     streak: number;
 }
 
-export default function HabitCard({name, streak} : Props)
+export default function HabitCard({name, streak, ...rest} : Props)
 {
     const [fontsLoaded] = useFonts({
         'Teachers-SemiBold': require('../../assets/fonts/Teachers-SemiBold.ttf'),
@@ -25,16 +26,16 @@ export default function HabitCard({name, streak} : Props)
       }
 
     return (
-      <View style={styles.Background}>
+      <HabitCardTemplate {...rest}>
         <Text style={styles.Name}>{name}</Text>
         <View style={styles.StreakContainer}>
-            <Text style={styles.Streak}>{streak}</Text>
-            <Image
-                  source={require("@/assets/images/flamme.png")}
-                  style={{ width: 30, height: 30 }}
-                />
+          <Text style={styles.Streak}>{streak}</Text>
+          <Image
+            source={require("@/assets/images/flamme.png")}
+            style={{ width: 30, height: 30 }}
+          />
         </View>
-      </View>
+      </HabitCardTemplate>
     );
 }
 

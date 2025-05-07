@@ -1,10 +1,8 @@
-import { StyleSheet, View, Text, Image } from "react-native";
+import { StyleSheet, View, Text, Image, ViewProps } from "react-native";
 import { Colors } from "../Constants/Colors";
 import { useFonts } from "expo-font";
-import { Habit } from "../Functions/Services/Service_Habit";
 
-
-export default function HabitCardTemplate()
+export default function HabitCardTemplate({...rest}: ViewProps)
 {
     const [fontsLoaded] = useFonts({
         'Teachers-SemiBold': require('../../assets/fonts/Teachers-SemiBold.ttf'),
@@ -20,7 +18,7 @@ export default function HabitCardTemplate()
       }
 
     return (
-      <View style={styles.Background}/>
+      <View style={styles.Background} {...rest}/>
     );
 }
 

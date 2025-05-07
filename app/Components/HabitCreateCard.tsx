@@ -1,10 +1,14 @@
-import { StyleSheet, View, Text, Image } from "react-native";
+import { StyleSheet, View, Text, Image, TextInput } from "react-native";
 import { Colors } from "../Constants/Colors";
 import { useFonts } from "expo-font";
-import { Habit } from "../Functions/Services/Service_Habit";
+import HabitCardTemplate from "./HabitCardTemplate";
+import { useState } from "react";
 
+type Props = {
+  onNameChange: (value: string) => void;
+}
 
-export default function HabitCreateCard()
+export default function HabitCreateCard({onNameChange} : Props)
 {
     const [fontsLoaded] = useFonts({
         'Teachers-SemiBold': require('../../assets/fonts/Teachers-SemiBold.ttf'),
@@ -14,16 +18,23 @@ export default function HabitCreateCard()
         'TeachersMedium': require('../../assets/fonts/TeachersMedium.ttf'),
 
       });
+
+      const [text, setText] = useState("")
     
       if (!fontsLoaded || !fontsLoaded2) {
         return null;
       }
 
     return (
-      <View style={styles.Background}>
-        <View style={{height: "100%", justifyContent: "center"}}>
+      <HabitCardTemplate>
+        <View style={{height: "100%", width: "75%", justifyContent: "center"}}>
             <Text style={styles.CategoryTitle}>{"Name"}</Text>
-            <Text style={styles.Name}>{"Sport"}</Text>
+            <TextInput 
+            placeholder="Habit"
+            style={styles.Name}
+            value={text}
+            onChangeText={OnNameChange}
+            />
         </View>
 
         <View style={styles.StreakContainer}>
@@ -33,25 +44,24 @@ export default function HabitCreateCard()
                   style={{ width: 30, height: 30 }}
                 />
         </View>
-      </View>
+      </HabitCardTemplate>
     );
+
+    function OnNameChange(value: string)
+    {
+      onNameChange(value);
+      setText(value)
+    }
 }
 
 const styles = StyleSheet.create({
-    Background: {
-        elevation: 3,
-        width: "90%",
-        height: 60,
-        borderRadius: 20,
-        backgroundColor: Colors["greyWhite"],
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "space-between",
-        alignSelf : "center"
-    },
-    CategoryTitle: {
+    CategoryTitle2: {
+        flexWrap: "nowrap",
+        position: "absolute",
+      },
+      CategoryTitle: {
         fontSize: 16,
-        left: 23,
+        left: 26,
         top: -14,
         position: "absolute",
         fontFamily: "Teachers-Bold",
@@ -63,7 +73,7 @@ const styles = StyleSheet.create({
       },
     Name: {
         fontFamily: "Teachers-SemiBold",
-        marginLeft: 23,
+        left: 23,
         fontSize: 16,
     },
     StreakContainer: {
