@@ -12,7 +12,6 @@ export default function HabitCheckCardGroup({date} : Props)
 {
   var today = new Date();
   var isToday = IsSameDate(date, today);
-  console.log("IsToday => " + isToday)
 
   const [habits, setHabits] = useState<Habit[]>([]);
   
@@ -20,11 +19,11 @@ export default function HabitCheckCardGroup({date} : Props)
     const loadHabits = async () => {
       const data = (await GetHabits("user_default")).filter(
         (habit) => {
-          if (isToday) {
-            console.log("HABIT IS TODAY => " + HabitIsToday(habit))
+          if (isToday) 
+          {
             return HabitIsToday(habit)
           }
-          else
+          else if (today > date)
           {
             for(var i = 0; i < habit.completionDates.length; i++)
             {
@@ -34,7 +33,12 @@ export default function HabitCheckCardGroup({date} : Props)
                 return true;
               }
             }
+
             return false;
+          }
+          else
+          {
+            return habit.frequency.includes(GetFrequencyIndex(date))
           }
         }
       );
