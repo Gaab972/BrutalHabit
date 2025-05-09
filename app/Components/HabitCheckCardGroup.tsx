@@ -47,12 +47,10 @@ export default function HabitCheckCardGroup({date} : Props)
     };
 
     loadHabits();
-  }, []);
-
-  console.log("Habits count : " + habits.length)
+  }, [date]);
 
   return <View style={styles.HabitBackground}>
-          {habits.map((habit) => (<HabitCheckCard key={habit.id} {...habit} isChecked={false} />))}
+          {habits.map((habit) => (<HabitCheckCard key={habit.id} {...habit} isChecked={false} state={GetHabitCheckCardState(date)}/>))}
       </View>
 }
 
@@ -90,4 +88,12 @@ function IsSameDate(date1: Date, date2: Date)
   return date1.getDate() == date2.getDate() 
   && date1.getMonth() == date2.getMonth() 
   && date1.getFullYear() == date2.getFullYear();
+}
+
+function GetHabitCheckCardState(date: Date) : "earlier" | "today" | "later" {
+  const today = new Date();
+
+  if (IsSameDate(date, today)) return "today";
+  if (date < today) return "earlier";
+  return "later";
 }

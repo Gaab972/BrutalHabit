@@ -4,14 +4,16 @@ import { useFonts } from "expo-font";
 import { Ionicons } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native';
 
+type State = "earlier" | "today" | "later";
 
 type Props = ViewProps & {
     name: string;
     streak: number;
     isChecked: boolean;
+    state : State;
 }
 
-export default function HabitCheckCard({name, streak, isChecked} : Props)
+export default function HabitCheckCard({name, streak, isChecked, state} : Props)
 {
     const [fontsLoaded] = useFonts({
         'Teachers-SemiBold': require('../../assets/fonts/Teachers-SemiBold.ttf'),
@@ -27,7 +29,8 @@ export default function HabitCheckCard({name, streak, isChecked} : Props)
       }
 
     return (
-      <View style={styles.Background}>
+      <View style={[styles.Background,
+       state === "earlier" && { opacity: 0.75 }]}>
         <Text style={styles.Name}>{name}</Text>
         <View style={styles.StreakContainer}>
           <Text style={styles.Streak}>{streak}</Text>
@@ -36,13 +39,28 @@ export default function HabitCheckCard({name, streak, isChecked} : Props)
             style={{ width: 20, height: 20 }}
           />
         </View>
-        <TouchableOpacity style={styles.Checkbox}>
-          {isChecked ? (
-            <Ionicons name="checkbox" size={25} color="#2F90EB" />
-          ) : (
-            <Ionicons name="square-outline" size={25} color="#aaa" />
-          )}
-        </TouchableOpacity>
+        
+        {state === "later" ? (
+          <Ionicons style={styles.Checkbox} name="lock-closed" size={25} color="#aaa" />
+        ) : (
+
+          <TouchableOpacity style={styles.Checkbox}>
+            {isChecked ? (
+              <Ionicons name="checkbox" size={25} color="#2F90EB" />
+            ) : (
+              <Ionicons name="square-outline" size={25} color="#aaa" />
+            )}
+
+          </TouchableOpacity>
+        //   <TouchableOpacity style={styles.Checkbox}>
+          
+        //   {isChecked ? (
+        //     <Ionicons name="checkbox" size={25} color="#2F90EB" />
+        //   ) : (
+        //     <Ionicons name="square-outline" size={25} color="#aaa" />
+        //   )}
+        // </TouchableOpacity>
+        )}
       </View>
     );
 }
