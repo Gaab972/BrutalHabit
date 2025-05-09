@@ -3,5 +3,5 @@ import CreateHabitScreen from "./Screens/CreateHabitScreen";
 import DailyHabitsScreen from "./Screens/DailyHabitsScreen";
 
 export default function Index() {
-  return <CreateHabitScreen/>
+  return <DailyHabitsScreen/>
 }

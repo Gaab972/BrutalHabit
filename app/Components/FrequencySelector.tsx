@@ -5,9 +5,10 @@ import { StyleSheet } from "react-native";
 type Props = {
     selectedDaysIndex: number[],
     SetSelectedDaysIndex: (selectedDays: number[]) => void;
+    canInteract: boolean;
 }
 
-export default function FrequencySelector({selectedDaysIndex, SetSelectedDaysIndex} : Props) {
+export default function FrequencySelector({selectedDaysIndex, SetSelectedDaysIndex, canInteract} : Props) {
   return (
     <Row style={styles.FrequencyDays} gap={6}>
       {Array.from({ length: 7 }, (_, i) => (
@@ -16,12 +17,15 @@ export default function FrequencySelector({selectedDaysIndex, SetSelectedDaysInd
           label={GetDayLabel(i)}
           selected={selectedDaysIndex.includes(i)}
           onPress={() => OnPressDayCell(i)}
+          canInteract={canInteract}
         />
       ))}
     </Row>
   );
 
   function OnPressDayCell(index: number) {
+    if (!canInteract) return false;
+
     var newSelectedDays = selectedDaysIndex.includes(index) 
     ? selectedDaysIndex.filter((i) => i !== index) 
     : [...selectedDaysIndex, index];

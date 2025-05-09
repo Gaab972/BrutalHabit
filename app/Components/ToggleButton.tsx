@@ -5,6 +5,7 @@ import { useFonts } from "expo-font";
 type Props = {
     label: string,
     selected: boolean,
+    canInteract: boolean,
     onPress: () => void,
     baseViewStyle?: StyleProp<ViewStyle>,
     onViewStyle?: StyleProp<ViewStyle>,

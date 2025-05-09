@@ -5,14 +5,16 @@ import Colors from "../Constants/Colors";
 type Props = {
     label: string,
     selected: boolean,
+    canInteract: boolean,
     onPress: () => void,
 }
 
-export default function DayCell({label, selected, onPress} : Props)
+export default function DayCell({label, selected, canInteract, onPress} : Props)
 {
     return <ToggleButton 
     label={label} 
     selected={selected} 
+    canInteract={canInteract}
     onPress={onPress} 
     baseViewStyle={styles.BaseViewStyle}
     onViewStyle={styles.OnViewStyle}

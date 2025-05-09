@@ -1,16 +1,18 @@
-import { StyleSheet, View, Text, Image, ViewProps } from "react-native";
+import { StyleSheet, View, Text, Image, ViewProps, Pressable } from "react-native";
 import { Colors } from "../Constants/Colors";
 import { useFonts } from "expo-font";
 import { Habit } from "../Functions/Services/Service_Habit";
 import HabitCardTemplate from "./HabitCardTemplate";
+import { Link } from "expo-router";
 
 
 type Props = Habit & {
+    id: string,
     name: string;
     streak: number;
 }
 
-export default function HabitCard({name, streak, ...rest} : Props)
+export default function HabitCard({id, name, streak, ...rest} : Props)
 {
     const [fontsLoaded] = useFonts({
         'Teachers-SemiBold': require('../../assets/fonts/Teachers-SemiBold.ttf'),
@@ -26,7 +28,10 @@ export default function HabitCard({name, streak, ...rest} : Props)
       }
 
     return (
-      <HabitCardTemplate {...rest}>
+      
+      <Link href={{pathname: "/Screens/HabitDetailScreen", params: { id: id } }} asChild>
+      <Pressable>
+        <HabitCardTemplate {...rest}>
         <Text style={styles.Name}>{name}</Text>
         <View style={styles.StreakContainer}>
           <Text style={styles.Streak}>{streak}</Text>
@@ -35,7 +40,9 @@ export default function HabitCard({name, streak, ...rest} : Props)
             style={{ width: 30, height: 30 }}
           />
         </View>
-      </HabitCardTemplate>
+        </HabitCardTemplate>
+      </Pressable>
+      </Link>
     );
 }
 
@@ -54,7 +61,6 @@ const styles = StyleSheet.create({
         fontFamily: "Teachers-SemiBold",
         marginLeft: 18.5,
         fontSize: 16,
-   
     },
     StreakContainer: {
         flexDirection: "row",
@@ -66,16 +72,4 @@ const styles = StyleSheet.create({
         fontSize: 16,
         marginLeft: 18.5,
     },
-    Emoji: {
-        fontSize: 18,
-        marginLeft : 2,
-        paddingBottom: 8 
-    },
-    Checkbox : {
-        position: "absolute",
-        alignSelf: "flex-end",
-        top: "50%",
-        transform: [{ translateY: -25 / 2 }], // ou valeur fixe ex. -20
-        right: 28,
-    }
 })

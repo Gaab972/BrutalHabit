@@ -2,13 +2,14 @@ import { StyleSheet, View, Text, Image, TextInput } from "react-native";
 import { Colors } from "../Constants/Colors";
 import { useFonts } from "expo-font";
 import HabitCardTemplate from "./HabitCardTemplate";
-import { useState } from "react";
 
 type Props = {
+  text: string,
   onNameChange: (value: string) => void;
+  editable: boolean;
 }
 
-export default function HabitCreateCard({onNameChange} : Props)
+export default function HabitCreateCard({text, onNameChange, editable} : Props)
 {
     const [fontsLoaded] = useFonts({
         'Teachers-SemiBold': require('../../assets/fonts/Teachers-SemiBold.ttf'),
@@ -16,11 +17,8 @@ export default function HabitCreateCard({onNameChange} : Props)
 
       const [fontsLoaded2] = useFonts({
         'TeachersMedium': require('../../assets/fonts/TeachersMedium.ttf'),
-
       });
 
-      const [text, setText] = useState("")
-    
       if (!fontsLoaded || !fontsLoaded2) {
         return null;
       }
@@ -29,11 +27,12 @@ export default function HabitCreateCard({onNameChange} : Props)
       <HabitCardTemplate>
         <View style={{height: "100%", width: "75%", justifyContent: "center"}}>
             <Text style={styles.CategoryTitle}>{"Name"}</Text>
-            <TextInput 
+            <TextInput
+            editable={editable}
             placeholder="Habit"
             style={styles.Name}
             value={text}
-            onChangeText={OnNameChange}
+            onChangeText={onNameChange}
             />
         </View>
 
@@ -46,23 +45,14 @@ export default function HabitCreateCard({onNameChange} : Props)
         </View>
       </HabitCardTemplate>
     );
-
-    function OnNameChange(value: string)
-    {
-      onNameChange(value);
-      setText(value)
-    }
 }
 
 const styles = StyleSheet.create({
-    CategoryTitle2: {
-        flexWrap: "nowrap",
-        position: "absolute",
-      },
       CategoryTitle: {
         fontSize: 16,
-        left: 26,
+        marginLeft: 21.5,
         top: -14,
+        alignSelf: "flex-start",
         position: "absolute",
         fontFamily: "Teachers-Bold",
         fontWeight: "bold",
@@ -73,7 +63,7 @@ const styles = StyleSheet.create({
       },
     Name: {
         fontFamily: "Teachers-SemiBold",
-        left: 23,
+        marginLeft: 18.5,
         fontSize: 16,
     },
     StreakContainer: {
@@ -86,16 +76,4 @@ const styles = StyleSheet.create({
         fontSize: 16,
         marginLeft: 18.5,
     },
-    Emoji: {
-        fontSize: 18,
-        marginLeft : 2,
-        paddingBottom: 8 
-    },
-    Checkbox : {
-        position: "absolute",
-        alignSelf: "flex-end",
-        top: "50%",
-        transform: [{ translateY: -25 / 2 }], // ou valeur fixe ex. -20
-        right: 28,
-    }
 })

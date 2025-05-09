@@ -1,44 +1,70 @@
 import { View, StyleSheet, Text } from "react-native";
 import Colors from "../Constants/Colors";
 import HabitCreateCard from "../Components/HabitCreateCard";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import FrequencySelector from "../Components/FrequencySelector";
 import Row from "../Components/Row";
 import SwitchButton from "../Components/SwitchButton";
 import HabitCreateDescription from "../Components/HabitDescription";
 import OKButton from "../Components/OKButton";
-import { AddHabit } from "../Functions/Services/Service_Habit";
+import { AddHabit, GetHabit, Habit } from "../Functions/Services/Service_Habit";
+import { useLocalSearchParams } from "expo-router";
 
-export default function CreateHabitScreen()
+export default function HabitDetailScreen()
 {
-  const [name, setName] = useState("");
+  const [newName, setName] = useState("");
   const [selectedDays, setSelectedDays] = useState<number[]>([]);
   const [brutalModeEnabled, setBrutalModeEnabled] = useState(false);
   const [description, setDescription] = useState("");
+  const [editable, setEditable] = useState(false);
+
+  const {id} = useLocalSearchParams();
+  const [habit, setHabit] = useState<Habit | null>(null);
+
+  useEffect(() => {
+    const loadHabit = async () => {
+      const data = await GetHabit(id.toString())
+      .then(setHabit)
+      .catch(console.error)
+    }
+
+    loadHabit();
+  }, [id])
+
+  useEffect(() => {
+    if (!habit) return;
+
+    setName(habit.name);
+    setSelectedDays(habit.frequency);
+    setBrutalModeEnabled(habit.brutalMode);
+    setDescription(habit.description ?? "");
+  }, [habit])
 
   return <View style={styles.Background}>
-          <Text style={styles.Title}>New habit</Text>
+          <Text style={styles.Title}>{"Habit"}</Text>
           <View style={styles.Content}>
             <View style={styles.CategoryView}>
-              <HabitCreateCard text={name} onNameChange={setName} editable={true}/>
+              <HabitCreateCard text={newName} onNameChange={setName} editable={editable}/>
             </View>
             <View style={styles.CategoryView}>
               <Text style={styles.CategoryTitle}>Frequency</Text>
-              <FrequencySelector selectedDaysIndex={selectedDays} SetSelectedDaysIndex={setSelectedDays} canInteract={true}/>
+              <FrequencySelector selectedDaysIndex={selectedDays} SetSelectedDaysIndex={setSelectedDays} canInteract={editable}/>
             </View>
 
             <Row style={styles.CategoryView}>
               <Text style={styles.CategoryTitle}>Brutal Mode</Text>
-              <SwitchButton enabled={brutalModeEnabled} onToggleSwitch={setBrutalModeEnabled} canInteract={true}/>
+              <SwitchButton enabled={brutalModeEnabled} onToggleSwitch={setBrutalModeEnabled} canInteract={editable}/>
             </Row>
             
             <View style={styles.CategoryView}>
-              <HabitCreateDescription description={description} onDescriptionChange={setDescription} editable={true}/>
+              <HabitCreateDescription description={description} onDescriptionChange={setDescription} editable={editable}/>
             </View>
-
+            
+            {editable &&
             <View style={styles.OKButtonView}>
-              <OKButton text="OK" onPress={OnPressOK}/>  
+                <OKButton text="OK" onPress={OnPressOK}/>  
             </View>
+            }
                       
           </View>
       </View>
@@ -53,7 +79,7 @@ export default function CreateHabitScreen()
     }
 
     AddHabit({
-      name: name,
+      name: newName,
       description: description,
       frequency: selectedDays,
       brutalMode: brutalModeEnabled,
@@ -62,7 +88,7 @@ export default function CreateHabitScreen()
 
   function NameIsValid() : boolean
   {
-    if (name.length < 1)
+    if (newName.length < 1)
     {
       console.log("Name not valid")
       //Do something
@@ -110,7 +136,7 @@ const styles = StyleSheet.create({
   CategoryTitle: {
     fontSize: 16,
     alignSelf: "flex-start",
-    marginLeft: 42,
+    marginLeft: 41,
     fontFamily: "Teachers-Bold",
     fontWeight: "bold",
     textAlign: "center",

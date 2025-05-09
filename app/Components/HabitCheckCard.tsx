@@ -33,7 +33,7 @@ export default function HabitCheckCard({name, streak, isChecked} : Props)
           <Text style={styles.Streak}>{streak}</Text>
           <Image
             source={require("@/assets/images/flamme.png")}
-            style={{ width: 24, height: 24 }}
+            style={{ width: 20, height: 20 }}
           />
         </View>
         <TouchableOpacity style={styles.Checkbox}>
@@ -67,9 +67,7 @@ const styles = StyleSheet.create({
     Streak: {
         fontFamily: "TeachersMedium",
         marginLeft: 18.5,
-    },
-    Emoji: {
-        fontSize: 14,
+        fontSize: 12,
     },
     Checkbox : {
         position: "absolute",
