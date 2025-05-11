@@ -3,37 +3,44 @@ import { Colors } from "../Constants/Colors";
 import { useFonts } from "expo-font";
 import { Ionicons } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native';
+import { useState } from "react";
+import { CompletionDate, updateHabit } from "../Functions/Services/Service_Habit";
+
 
 type State = "earlier" | "today" | "later";
 
 type Props = ViewProps & {
+    id: string;
     name: string;
     streak: number;
     isChecked: boolean;
     state : State;
+    completionDates: CompletionDate[]
 }
 
-export default function HabitCheckCard({name, streak, isChecked, state} : Props)
+export default function HabitCheckCard({id, name, streak, isChecked, state, completionDates} : Props)
 {
     const [fontsLoaded] = useFonts({
-        'Teachers-SemiBold': require('../../assets/fonts/Teachers-SemiBold.ttf'),
-      });
+      "Teachers-SemiBold": require("../../assets/fonts/Teachers-SemiBold.ttf"),
+    });
 
-      const [fontsLoaded2] = useFonts({
-        'TeachersMedium': require('../../assets/fonts/TeachersMedium.ttf'),
+    const [fontsLoaded2] = useFonts({
+      TeachersMedium: require("../../assets/fonts/TeachersMedium.ttf"),
+    });
 
-      });
-    
-      if (!fontsLoaded || !fontsLoaded2) {
-        return null;
-      }
+    const [newIsChecked, setNewIsChecked] = useState(isChecked);
+    const [actualStreak, setActualStreak] = useState(streak)
+
+    if (!fontsLoaded || !fontsLoaded2) {
+      return null;
+    }
 
     return (
       <View style={[styles.Background,
        state === "earlier" && { opacity: 0.75 }]}>
         <Text style={styles.Name}>{name}</Text>
         <View style={styles.StreakContainer}>
-          <Text style={styles.Streak}>{streak}</Text>
+          <Text style={styles.Streak}>{actualStreak}</Text>
           <Image
             source={require("@/assets/images/flamme.png")}
             style={{ width: 20, height: 20 }}
@@ -44,25 +51,39 @@ export default function HabitCheckCard({name, streak, isChecked, state} : Props)
           <Ionicons style={styles.Checkbox} name="lock-closed" size={25} color="#aaa" />
         ) : (
 
-          <TouchableOpacity style={styles.Checkbox}>
-            {isChecked ? (
+          <TouchableOpacity style={styles.Checkbox} onPress={(OnCheckboxTap)}>
+            {newIsChecked ? (
               <Ionicons name="checkbox" size={25} color="#2F90EB" />
             ) : (
               <Ionicons name="square-outline" size={25} color="#aaa" />
             )}
 
           </TouchableOpacity>
-        //   <TouchableOpacity style={styles.Checkbox}>
-          
-        //   {isChecked ? (
-        //     <Ionicons name="checkbox" size={25} color="#2F90EB" />
-        //   ) : (
-        //     <Ionicons name="square-outline" size={25} color="#aaa" />
-        //   )}
-        // </TouchableOpacity>
         )}
       </View>
     );
+
+
+    function OnCheckboxTap()
+    {
+      setNewIsChecked((prev) => !prev)
+      var completed = !newIsChecked;
+      var newStreak = actualStreak;
+      var today = new Date();
+
+      for (var i = 0; i < completionDates.length; i++)
+        {
+          var completionDate = completionDates[i];
+          if (IsSameDate(today, completionDate.date))
+          {
+            completionDates[i].completed = completed;
+            newStreak = completed ? newStreak + 1 : newStreak - 1
+            setActualStreak(newStreak);
+          }
+        }
+
+      updateHabit(id, {completionDates: completionDates, streak: newStreak})    
+    }
 }
 
 const styles = StyleSheet.create({
@@ -95,3 +116,10 @@ const styles = StyleSheet.create({
         right: 28,
     }
 })
+
+function IsSameDate(date1: Date, date2: Date)
+{
+  return date1.getDate() == date2.getDate() 
+  && date1.getMonth() == date2.getMonth() 
+  && date1.getFullYear() == date2.getFullYear();
+}

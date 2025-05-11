@@ -11,14 +11,14 @@ import {
   getDoc,
 } from 'firebase/firestore';
 
-type HabitData = {
+export type HabitData = {
   name: string;
   description?: string;
   frequency: number[];
   brutalMode: boolean;
 };
 
-type CompletionDate =  {
+export type CompletionDate =  {
   date: Date,
   completed: boolean,
 }
@@ -98,7 +98,7 @@ export const GetHabit = async (habitId: string) : Promise<Habit | null> => {
   return null;
 }
 
-export const updateHabit = async (habitId: string, updates: Partial<HabitData>) => {
+export const updateHabit = async (habitId: string, updates: Partial<Habit>) => {
     const habitRef = doc(database, "habits", habitId)
     await updateDoc(habitRef, updates);
 };

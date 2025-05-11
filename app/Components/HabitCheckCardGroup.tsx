@@ -2,7 +2,7 @@ import { View, StyleSheet } from "react-native"
 import HabitCheckCard from "./HabitCheckCard"
 import { Colors } from "../Constants/Colors"
 import { useEffect, useState } from "react";
-import { GetHabits, Habit } from "../Functions/Services/Service_Habit";
+import { GetHabits, Habit, updateHabit } from "../Functions/Services/Service_Habit";
 
 type Props = {
     date: Date,
@@ -14,34 +14,43 @@ export default function HabitCheckCardGroup({date} : Props)
   var isToday = IsSameDate(date, today);
 
   const [habits, setHabits] = useState<Habit[]>([]);
-  
+
   useEffect(() => {
     const loadHabits = async () => {
-      const data = (await GetHabits("user_default")).filter(
-        (habit) => {
-          if (isToday) 
-          {
-            return HabitIsToday(habit)
-          }
-          else if (today > date)
-          {
-            for(var i = 0; i < habit.completionDates.length; i++)
-            {
+      const data = (await GetHabits("user_default")).filter((habit) => {
+        if (isToday) {
+          if (habit.completionDates.length == 0) {
+            habit.completionDates.push({ date: date, completed: false });
+            updateHabit(habit.id, { completionDates: habit.completionDates });
+          } else {
+            for (var i = 0; i < habit.completionDates.length; i++) {
               var completionDate = habit.completionDates[i];
-              if (IsSameDate(date, completionDate.date)) 
-              {
-                return true;
+              if (IsSameDate(date, completionDate.date)) {
+                break;
+              } else if (i == habit.completionDates.length - 1) {
+                habit.completionDates.push({ date: date, completed: false });
+                updateHabit(habit.id, {
+                  completionDates: habit.completionDates,
+                });
+                break;
               }
             }
+          }
 
-            return false;
+          return HabitIsToday(habit);
+        } else if (today > date) {
+          for (var i = 0; i < habit.completionDates.length; i++) {
+            var completionDate = habit.completionDates[i];
+            if (IsSameDate(date, completionDate.date)) {
+              return true;
+            }
           }
-          else
-          {
-            return habit.frequency.includes(GetFrequencyIndex(date))
-          }
+
+          return false;
+        } else {
+          return habit.frequency.includes(GetFrequencyIndex(date));
         }
-      );
+      });
 
       setHabits(data);
     };
@@ -49,9 +58,19 @@ export default function HabitCheckCardGroup({date} : Props)
     loadHabits();
   }, [date]);
 
-  return <View style={styles.HabitBackground}>
-          {habits.map((habit) => (<HabitCheckCard key={habit.id} {...habit} isChecked={false} state={GetHabitCheckCardState(date)}/>))}
-      </View>
+  return (
+    <View style={styles.HabitBackground}>
+      {habits.map((habit) => (
+        <HabitCheckCard
+          key={habit.id}
+          {...habit}
+          isChecked={GetHabitCompletedAtDate(habit, date)}
+          state={GetHabitCheckCardState(date)}
+          completionDates={habit.completionDates}
+        />
+      ))}
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -96,4 +115,20 @@ function GetHabitCheckCardState(date: Date) : "earlier" | "today" | "later" {
   if (IsSameDate(date, today)) return "today";
   if (date < today) return "earlier";
   return "later";
+}
+
+function GetHabitCompletedAtDate(habit: Habit, date: Date) : boolean
+{
+  if (habit.completionDates.length == 0) return false;
+
+  var today = new Date();
+  if (date > today) return false;
+
+  for (var i = 0; i < habit.completionDates.length; i++) 
+  {
+    var completionDate = habit.completionDates[i];
+    if (IsSameDate(today, completionDate.date)) return completionDate.completed;
+  }
+
+  return false;
 }
