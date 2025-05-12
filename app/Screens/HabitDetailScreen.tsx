@@ -1,4 +1,4 @@
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text, Image } from "react-native";
 import Colors from "../Constants/Colors";
 import HabitCreateCard from "../Components/HabitCreateCard";
 import { useEffect, useState } from "react";
@@ -9,6 +9,7 @@ import HabitCreateDescription from "../Components/HabitDescription";
 import OKButton from "../Components/OKButton";
 import { AddHabit, GetHabit, Habit } from "../Functions/Services/Service_Habit";
 import { useLocalSearchParams } from "expo-router";
+import { useFonts } from "expo-font";
 
 export default function HabitDetailScreen()
 {
@@ -17,6 +18,10 @@ export default function HabitDetailScreen()
   const [brutalModeEnabled, setBrutalModeEnabled] = useState(false);
   const [description, setDescription] = useState("");
   const [editable, setEditable] = useState(false);
+
+  const [fontsLoaded] = useFonts({
+    'Teachers-SemiBold': require('../../assets/fonts/Teachers-SemiBold.ttf'),
+  });
 
   const {id} = useLocalSearchParams();
   const [habit, setHabit] = useState<Habit | null>(null);
@@ -40,12 +45,24 @@ export default function HabitDetailScreen()
     setDescription(habit.description ?? "");
   }, [habit])
 
+  if (!fontsLoaded) {
+    return null;
+  }
+
   return <View style={styles.Background}>
           <Text style={styles.Title}>{"Habit"}</Text>
           <View style={styles.Content}>
             <View style={styles.CategoryView}>
               <HabitCreateCard text={newName} onNameChange={setName} editable={editable}/>
             </View>
+            <Row style={styles.CategoryView}>
+              <Text style={styles.CategoryTitle}>Max streak :</Text>
+              <Text style={styles.MaxStreakNumber}>{habit?.maxStreak}</Text>
+              <Image
+                source={require("@/assets/images/flamme.png")}
+                style={{ width: 30, height: 30 }}
+              />
+            </Row>
             <View style={styles.CategoryView}>
               <Text style={styles.CategoryTitle}>Frequency</Text>
               <FrequencySelector selectedDaysIndex={selectedDays} SetSelectedDaysIndex={setSelectedDays} canInteract={editable}/>
@@ -149,4 +166,12 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingBottom: 27,
   },
+  MaxStreakNumber: {
+    marginTop: 3,
+    marginLeft: 7,
+    fontSize: 16,
+    fontFamily: "Teachers-SemiBold",
+    textAlign: "center",
+    alignSelf: "flex-start",
+  }
 });
