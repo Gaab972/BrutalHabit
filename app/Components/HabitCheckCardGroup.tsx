@@ -62,7 +62,7 @@ export default function HabitCheckCardGroup({date} : Props)
     <View style={styles.HabitBackground}>
       {habits.map((habit) => (
         <HabitCheckCard
-          key={habit.id}
+          key={habit.id + date.toString()}
           {...habit}
           isChecked={GetHabitCompletedAtDate(habit, date)}
           state={GetHabitCheckCardState(date)}
