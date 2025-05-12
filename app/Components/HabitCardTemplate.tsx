@@ -1,22 +1,8 @@
 import { StyleSheet, View, ViewProps } from "react-native";
 import { Colors } from "../Constants/Colors";
-import { useFonts } from "expo-font";
 
 export default function HabitCardTemplate({style, ...rest}: ViewProps)
 {
-    const [fontsLoaded] = useFonts({
-        'Teachers-SemiBold': require('../../assets/fonts/Teachers-SemiBold.ttf'),
-      });
-
-      const [fontsLoaded2] = useFonts({
-        'TeachersMedium': require('../../assets/fonts/TeachersMedium.ttf'),
-
-      });
-    
-      if (!fontsLoaded || !fontsLoaded2) {
-        return null;
-      }
-
     return (
       <View style={[styles.Background, style]} {...rest}/>
     );
