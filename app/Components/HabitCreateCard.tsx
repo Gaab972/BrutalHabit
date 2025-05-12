@@ -5,11 +5,12 @@ import HabitCardTemplate from "./HabitCardTemplate";
 
 type Props = {
   text: string,
+  streak?: number;
   onNameChange: (value: string) => void;
   editable: boolean;
 }
 
-export default function HabitCreateCard({text, onNameChange, editable} : Props)
+export default function HabitCreateCard({text, onNameChange, editable, streak} : Props)
 {
     const [fontsLoaded] = useFonts({
         'Teachers-SemiBold': require('../../assets/fonts/Teachers-SemiBold.ttf'),
@@ -37,7 +38,7 @@ export default function HabitCreateCard({text, onNameChange, editable} : Props)
         </View>
 
         <View style={styles.StreakContainer}>
-            <Text style={styles.Streak}>{0}</Text>
+            <Text style={styles.Streak}>{streak ?? 0}</Text>
             <Image
                   source={require("@/assets/images/flamme.png")}
                   style={{ width: 30, height: 30 }}
