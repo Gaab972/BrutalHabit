@@ -53,14 +53,14 @@ export default function HabitDetailScreen()
           <Text style={styles.Title}>{"Habit"}</Text>
           <View style={styles.Content}>
             <View style={styles.CategoryView}>
-              <HabitCreateCard text={newName} onNameChange={setName} editable={editable}/>
+              <HabitCreateCard text={newName} onNameChange={setName} editable={editable} streak={habit?.streak}/>
             </View>
             <Row style={styles.CategoryView}>
               <Text style={styles.CategoryTitle}>Max streak :</Text>
               <Text style={styles.MaxStreakNumber}>{habit?.maxStreak}</Text>
               <Image
                 source={require("@/assets/images/flamme.png")}
-                style={{ width: 30, height: 30 }}
+                style={{ width: 28, height: 28 }}
               />
             </Row>
             <View style={styles.CategoryView}>
