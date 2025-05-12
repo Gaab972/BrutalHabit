@@ -51,7 +51,7 @@ export default function HabitCheckCard({id, name, streak, isChecked, state, comp
           <Ionicons style={styles.Checkbox} name="lock-closed" size={25} color="#aaa" />
         ) : (
 
-          <TouchableOpacity style={styles.Checkbox} onPress={(OnCheckboxTap)}>
+          <TouchableOpacity style={styles.Checkbox} onPress={(OnCheckboxTap)} disabled={state !== "today"}>
             {newIsChecked ? (
               <Ionicons name="checkbox" size={25} color="#2F90EB" />
             ) : (
