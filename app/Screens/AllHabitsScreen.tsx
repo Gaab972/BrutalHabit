@@ -4,6 +4,7 @@ import HabitCard from "../Components/HabitCard";
 import { GetHabits, Habit } from "../Functions/Services/Service_Habit";
 import { useEffect, useState } from "react";
 import NewHabitCard from "../Components/NewHabitCard";
+import BottomNavBar from "../Components/BottomNavBar";
 
 export default function AllHabitsScreen() {
 
@@ -25,6 +26,7 @@ useEffect(() => {
             {habits.map((habit) => (<HabitCard key={habit.id} {...habit} />))}
             <NewHabitCard/>
         </View>
+    <BottomNavBar selectedPage="AllHabits"/>
     </View>
   );
 }

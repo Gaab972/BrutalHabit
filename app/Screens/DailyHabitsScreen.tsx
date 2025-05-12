@@ -5,6 +5,7 @@ import { GetMonthName } from "../Functions/Format";
 import { useState } from "react";
 import DateCalendar from "../Components/DateCalendar";
 import HabitCheckCardGroup from "../Components/HabitCheckCardGroup";
+import BottomNavBar from "../Components/BottomNavBar";
 
 export default function DailyHabitsScreen() {
   const [fontsLoaded] = useFonts({
@@ -22,6 +23,7 @@ export default function DailyHabitsScreen() {
       <Text style={styles.Title}>{GetDateTitle(selectedDate)}</Text>
       <DateCalendar onDateSelected={setSelectedDate}/>
       <HabitCheckCardGroup date={selectedDate}/>
+      <BottomNavBar selectedPage="DailyHabits"/>
     </View>
   );
 }
