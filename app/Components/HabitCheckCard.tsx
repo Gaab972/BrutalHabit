@@ -37,7 +37,7 @@ export default function HabitCheckCard({id, name, streak, isChecked, state, comp
 
     return (
       <View style={[styles.Background,
-       state === "earlier" && { opacity: 0.75 }]}>
+       state === "earlier" && { opacity: 0.5 }]}>
         <Text style={styles.Name}>{name}</Text>
         <View style={styles.StreakContainer}>
           <Text style={styles.Streak}>{actualStreak}</Text>
