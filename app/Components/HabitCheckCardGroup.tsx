@@ -19,20 +19,23 @@ export default function HabitCheckCardGroup({date} : Props)
     const loadHabits = async () => {
       const data = (await GetHabits("user_default")).filter((habit) => {
         if (isToday) {
-          if (habit.completionDates.length == 0) {
-            habit.completionDates.push({ date: date, completed: false });
-            updateHabit(habit.id, { completionDates: habit.completionDates });
-          } else {
-            for (var i = 0; i < habit.completionDates.length; i++) {
-              var completionDate = habit.completionDates[i];
-              if (IsSameDate(date, completionDate.date)) {
-                break;
-              } else if (i == habit.completionDates.length - 1) {
-                habit.completionDates.push({ date: date, completed: false });
-                updateHabit(habit.id, {
-                  completionDates: habit.completionDates,
-                });
-                break;
+          if (habit.frequency.includes(GetFrequencyIndex(date)))
+          {
+              if (habit.completionDates.length == 0) {
+              habit.completionDates.push({ date: date, completed: false });
+              updateHabit(habit.id, { completionDates: habit.completionDates });
+            } else {
+              for (var i = 0; i < habit.completionDates.length; i++) {
+                var completionDate = habit.completionDates[i];
+                if (IsSameDate(date, completionDate.date)) {
+                  break;
+                } else if (i == habit.completionDates.length - 1) {
+                  habit.completionDates.push({ date: date, completed: false });
+                  updateHabit(habit.id, {
+                    completionDates: habit.completionDates,
+                  });
+                  break;
+                }
               }
             }
           }
@@ -127,7 +130,10 @@ function GetHabitCompletedAtDate(habit: Habit, date: Date) : boolean
   for (var i = 0; i < habit.completionDates.length; i++) 
   {
     var completionDate = habit.completionDates[i];
-    if (IsSameDate(today, completionDate.date)) return completionDate.completed;
+    if (IsSameDate(date, completionDate.date))
+      {
+        return completionDate.completed;
+      } 
   }
 
   return false;
