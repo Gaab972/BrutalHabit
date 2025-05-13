@@ -25,7 +25,7 @@ export default function HabitDescription({description, onDescriptionChange, edit
         <View style={{ height: "100%", width: "100%"}}>
             <Row style={styles.AbsoluteView}>
                 <Text style={styles.CategoryTitle}>{"Description"}</Text>
-                <Text style={styles.Optional}>{"(optional)"}</Text>
+                {editable && <Text style={styles.Optional}>{"(optional)"}</Text>}
             </Row>
             <TextInput
             editable={editable}
