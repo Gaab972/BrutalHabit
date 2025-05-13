@@ -1,13 +1,24 @@
-import { Pressable, StyleSheet, View, ViewProps, Text, TouchableOpacity } from "react-native";
+import { Image, StyleSheet, View, ViewProps, Text, TouchableOpacity, ImageSourcePropType } from "react-native";
 import Colors from "../Constants/Colors";
 import { useFonts } from "expo-font";
 
-type Props = ViewProps & {
-    text: string,
+type CommonProps = ViewProps & {
     onPress: () => void;
 }
 
-export default function OKButton({style, text, onPress}: Props)
+type TextButton = {
+    text: string,
+    icon?: never,
+}
+
+type IconButton = {
+    icon: ImageSourcePropType
+    text?: never;
+}
+
+type Props = CommonProps & (TextButton | IconButton)
+
+export default function OKButton({style, text, icon, onPress}: Props)
 {
     const [fontsLoaded] = useFonts({
         'Teachers-Bold': require('../../assets/fonts/Teachers-Bold.ttf'),
@@ -19,7 +30,8 @@ export default function OKButton({style, text, onPress}: Props)
 
     return <TouchableOpacity style={[styles.Pressable, style]} onPress={onPress} activeOpacity={0.7}>
         <View style={styles.MainView}>
-            <Text style={styles.Text}>{text}</Text>
+            {text && <Text style={styles.Text}>{text}</Text>}
+            {icon && <Image source={icon} style={{ width:32, height:32}}/>}
         </View>
     </TouchableOpacity>
 }
