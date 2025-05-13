@@ -14,12 +14,9 @@ export default function DateCalendar({onDateSelected} : Props)
   const numberOfDaysAfter = 30;
   const todayIndex = 30;
   const [selectedIndex, setSelectedIndex] = useState(todayIndex)
-
-  const dates = new Array<Date>(numberOfDaysBefore + numberOfDaysAfter + 1);
-  for (var i = 0; i < dates.length; i++) {
-    dates[i] = GetDateWithDaysOffset(i - numberOfDaysBefore);
-  }
-
+  const [dates] = useState(Array
+    .from({ length: numberOfDaysBefore + numberOfDaysAfter + 1 }, (_, i) => GetDateWithDaysOffset(i - numberOfDaysBefore)));
+  
   const datesFlatListRef = useRef<FlatList<Date>>(null);
   const [isDatesFlatListReady, setIsFlatListReacdy] = useState(false);
 
