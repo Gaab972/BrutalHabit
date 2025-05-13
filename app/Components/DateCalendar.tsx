@@ -8,7 +8,8 @@ type Props = {
     onDateSelected : (SelectedDate : Date) => void;
 }
 
-export default function DateCalendar({onDateSelected} : Props) {
+export default function DateCalendar({onDateSelected} : Props) 
+{
   const numberOfDaysBefore = 30;
   const numberOfDaysAfter = 30;
   const todayIndex = 30;
@@ -37,7 +38,7 @@ export default function DateCalendar({onDateSelected} : Props) {
         ref={datesFlatListRef}
         horizontal
         data={dates}
-        keyExtractor={(item) => item.toDateString()}
+        keyExtractor={(item) => item.toString()}
         renderItem={(item) => (
           <DateCell
             date={item.item}

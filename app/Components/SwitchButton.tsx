@@ -8,8 +8,8 @@ type Props = {
     canInteract: boolean;
 }
 
-export default function SwitchButton({enabled, onToggleSwitch, canInteract} : Props) {
-
+export default function SwitchButton({enabled, onToggleSwitch, canInteract} : Props) 
+{
   return <Switch
 
         trackColor={{ false: Colors.tintLight, true: Colors.tint }}

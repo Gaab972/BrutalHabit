@@ -1,26 +1,11 @@
 import { StyleSheet, View, Text, Pressable } from "react-native";
 import { Colors } from "../Constants/Colors";
-import { useFonts } from "expo-font";
 import Row from "./Row";
 import { Link } from "expo-router";
 
 export default function NewHabitCard()
 {
-    const [fontsLoaded] = useFonts({
-        'Teachers-SemiBold': require('../../assets/fonts/Teachers-SemiBold.ttf'),
-      });
-
-      const [fontsLoaded2] = useFonts({
-        'TeachersMedium': require('../../assets/fonts/TeachersMedium.ttf'),
-
-      });
-    
-      if (!fontsLoaded || !fontsLoaded2) {
-        return null;
-      }
-
     return (
-        
       <Link href="../Screens/CreateHabitScreen" asChild>
         <Pressable style={{width: "100%", alignItems: "center"}}>
         <View style={styles.Background}>

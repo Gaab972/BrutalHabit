@@ -1,6 +1,5 @@
 import { StyleProp, StyleSheet, TextStyle, Text, View, ViewStyle, Pressable } from "react-native";
 import Colors from "../Constants/Colors";
-import { useFonts } from "expo-font";
 
 type Props = {
     label: string,
@@ -17,10 +16,6 @@ type Props = {
 
 export default function ToggleButton({label, selected, onPress, baseViewStyle, onViewStyle, offViewStyle, baseTextStyle, onTextStyle, offTextStyle}: Props)
 {
-    const [fontsLoaded] = useFonts({
-        'Teachers-SemiBold': require('../../assets/fonts/Teachers-SemiBold.ttf'),
-      });
-
     const selectedViewStyle = selected 
         ? onViewStyle ?? styles.defaultOnViewStyle
         : offViewStyle ?? styles.defaultOffViewStyle
@@ -29,10 +24,6 @@ export default function ToggleButton({label, selected, onPress, baseViewStyle, o
         ? onTextStyle ?? styles.defaultOnTextStyle
         : offTextStyle ?? styles.defaultOffTextStyle
 
-    if (!fontsLoaded) {
-      return null;
-    }
-        
     return <Pressable onPress={onPress}>
         <View style={[baseViewStyle, selectedViewStyle, styles.defaultViewStyle]}>
             <Text style={[baseTextStyle, selectedTextStyle]}>{label}</Text>

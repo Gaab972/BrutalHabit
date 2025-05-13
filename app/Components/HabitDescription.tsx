@@ -2,7 +2,6 @@ import { StyleSheet, Text, TextInput, View } from "react-native";
 import HabitCardTemplate from "./HabitCardTemplate";
 import Colors from "../Constants/Colors";
 import Row from "./Row";
-import { useFonts } from "expo-font";
 
 type Props = {
   description: string;
@@ -10,16 +9,8 @@ type Props = {
   editable: boolean;
 };
 
-export default function HabitDescription({description, onDescriptionChange, editable}: Props) {
-
-    const [fontsLoaded] = useFonts({
-        TeachersMedium: require("../../assets/fonts/TeachersMedium.ttf"),
-    });
-
-    if (!fontsLoaded) {
-        return null;
-    }
-
+export default function HabitDescription({description, onDescriptionChange, editable}: Props) 
+{
     return (
         <HabitCardTemplate style={styles.HabitCard}>
         <View style={{ height: "100%", width: "100%"}}>
@@ -61,7 +52,6 @@ const styles = StyleSheet.create({
   CategoryTitle: {
     fontSize: 16,
     fontFamily: "Teachers-Bold",
-    fontWeight: "bold",
     textAlign: "center",
     color: Colors["black"],
     backgroundColor: Colors.greyWhite,

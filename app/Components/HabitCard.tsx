@@ -1,6 +1,5 @@
 import { StyleSheet, View, Text, Image, ViewProps, Pressable } from "react-native";
 import { Colors } from "../Constants/Colors";
-import { useFonts } from "expo-font";
 import { Habit } from "../Functions/Services/Service_Habit";
 import HabitCardTemplate from "./HabitCardTemplate";
 import { Link } from "expo-router";
@@ -14,19 +13,6 @@ type Props = Habit & {
 
 export default function HabitCard({id, name, streak, ...rest} : Props)
 {
-    const [fontsLoaded] = useFonts({
-        'Teachers-SemiBold': require('../../assets/fonts/Teachers-SemiBold.ttf'),
-      });
-
-      const [fontsLoaded2] = useFonts({
-        'TeachersMedium': require('../../assets/fonts/TeachersMedium.ttf'),
-
-      });
-    
-      if (!fontsLoaded || !fontsLoaded2) {
-        return null;
-      }
-
     return (
       
       <Link href={{pathname: "/Screens/HabitDetailScreen", params: { id: id } }} asChild>

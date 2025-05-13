@@ -20,20 +20,8 @@ type Props = ViewProps & {
 
 export default function HabitCheckCard({id, name, streak, isChecked, state, completionDates} : Props)
 {
-    const [fontsLoaded] = useFonts({
-      "Teachers-SemiBold": require("../../assets/fonts/Teachers-SemiBold.ttf"),
-    });
-
-    const [fontsLoaded2] = useFonts({
-      TeachersMedium: require("../../assets/fonts/TeachersMedium.ttf"),
-    });
-
     const [newIsChecked, setNewIsChecked] = useState(isChecked);
     const [actualStreak, setActualStreak] = useState(streak)
-
-    if (!fontsLoaded || !fontsLoaded2) {
-      return null;
-    }
 
     return (
       <View style={[styles.Background,

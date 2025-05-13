@@ -100,7 +100,6 @@ const styles = StyleSheet.create({
     marginLeft: 31,
     marginTop: 57,
     fontFamily: "Teachers-Bold",
-    fontWeight: "bold",
     color: Colors["tint"],
   },
   CategoryView : 
@@ -112,7 +111,6 @@ const styles = StyleSheet.create({
     alignSelf: "flex-start",
     marginLeft: 42,
     fontFamily: "Teachers-Bold",
-    fontWeight: "bold",
     textAlign: "center",
     color: Colors["black"],
     opacity: 0.75,

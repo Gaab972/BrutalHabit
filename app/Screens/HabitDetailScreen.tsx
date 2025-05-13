@@ -7,9 +7,8 @@ import Row from "../Components/Row";
 import SwitchButton from "../Components/SwitchButton";
 import HabitCreateDescription from "../Components/HabitDescription";
 import OKButton from "../Components/OKButton";
-import { AddHabit, GetHabit, Habit, updateHabit } from "../Functions/Services/Service_Habit";
+import { GetHabit, Habit, updateHabit } from "../Functions/Services/Service_Habit";
 import { router, useLocalSearchParams } from "expo-router";
-import { useFonts } from "expo-font";
 
 export default function HabitDetailScreen()
 {
@@ -18,10 +17,6 @@ export default function HabitDetailScreen()
   const [brutalModeEnabled, setBrutalModeEnabled] = useState(false);
   const [description, setDescription] = useState("");
   const [editable, setEditable] = useState(false);
-
-  const [fontsLoaded] = useFonts({
-    'Teachers-SemiBold': require('../../assets/fonts/Teachers-SemiBold.ttf'),
-  });
 
   const {id} = useLocalSearchParams();
   const habitId = id as string;
@@ -45,10 +40,6 @@ export default function HabitDetailScreen()
     setBrutalModeEnabled(habit.brutalMode);
     setDescription(habit.description ?? "");
   }, [habit])
-
-  if (!fontsLoaded) {
-    return null;
-  }
 
   return <View style={styles.Background}>
           <Pressable onPress={() => router.back()}>
@@ -170,7 +161,6 @@ const styles = StyleSheet.create({
     fontSize: 32,
     alignSelf: "flex-start",
     fontFamily: "Teachers-Bold",
-    fontWeight: "bold",
     color: Colors["tint"],
   },
   CategoryView : 
@@ -182,7 +172,6 @@ const styles = StyleSheet.create({
     alignSelf: "flex-start",
     marginLeft: 41,
     fontFamily: "Teachers-Bold",
-    fontWeight: "bold",
     textAlign: "center",
     color: Colors["black"],
     opacity: 0.75,

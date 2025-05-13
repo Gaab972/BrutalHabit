@@ -43,7 +43,6 @@ const styles = StyleSheet.create({
     marginLeft: 31,
     marginTop: 57,
     fontFamily: "Teachers-Bold",
-    fontWeight: "bold",
     color: Colors["tint"],
   },
   HabitBackground: {

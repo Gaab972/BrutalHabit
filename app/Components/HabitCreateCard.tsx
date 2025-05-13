@@ -1,6 +1,5 @@
 import { StyleSheet, View, Text, Image, TextInput } from "react-native";
 import { Colors } from "../Constants/Colors";
-import { useFonts } from "expo-font";
 import HabitCardTemplate from "./HabitCardTemplate";
 
 type Props = {
@@ -12,18 +11,6 @@ type Props = {
 
 export default function HabitCreateCard({text, onNameChange, editable, streak} : Props)
 {
-    const [fontsLoaded] = useFonts({
-        'Teachers-SemiBold': require('../../assets/fonts/Teachers-SemiBold.ttf'),
-      });
-
-      const [fontsLoaded2] = useFonts({
-        'TeachersMedium': require('../../assets/fonts/TeachersMedium.ttf'),
-      });
-
-      if (!fontsLoaded || !fontsLoaded2) {
-        return null;
-      }
-
     return (
       <HabitCardTemplate>
         <View style={{height: "100%", width: "75%", justifyContent: "center"}}>
@@ -56,7 +43,6 @@ const styles = StyleSheet.create({
         alignSelf: "flex-start",
         position: "absolute",
         fontFamily: "Teachers-Bold",
-        fontWeight: "bold",
         textAlign: "center",
         color: Colors["black"],
         backgroundColor: Colors.greyWhite,

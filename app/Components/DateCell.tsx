@@ -1,7 +1,6 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { GetDayName } from "../Functions/Format";
 import { Colors } from "../Constants/Colors";
-import { useFonts } from "expo-font";
 
 type Props = {
     date: Date,
@@ -24,14 +23,6 @@ export default function DateCell({date, isToday, isSelected, index, onSelected} 
 
     var dayName = GetDayName(date).slice(0, 3);
     var dayNumber = date.getDate();
-
-    const [fontsLoaded] = useFonts({
-        'TeachersMedium': require('../../assets/fonts/TeachersMedium.ttf'),
-      });
-    
-      if (!fontsLoaded) {
-        return null;
-      }
 
     return  <Pressable onPress={() => onSelected(index)}>
             <View style={styles.Background}>

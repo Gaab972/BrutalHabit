@@ -1,22 +1,14 @@
 import { StyleSheet, Text, View } from "react-native";
 import { Colors } from "../Constants/Colors";
-import { useFonts } from 'expo-font';
 import { GetMonthName } from "../Functions/Format";
 import { useState } from "react";
 import DateCalendar from "../Components/DateCalendar";
 import HabitCheckCardGroup from "../Components/HabitCheckCardGroup";
 import BottomNavBar from "../Components/BottomNavBar";
 
-export default function DailyHabitsScreen() {
-  const [fontsLoaded] = useFonts({
-    'Teachers-Bold': require('../../assets/fonts/Teachers-Bold.ttf'),
-  });
-
+export default function DailyHabitsScreen() 
+{
   const [selectedDate, setSelectedDate] = useState(new Date());
-
-    if (!fontsLoaded) {
-    return null;
-  }
 
   return (
     <View style={styles.MainBackground}>

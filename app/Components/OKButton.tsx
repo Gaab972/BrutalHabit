@@ -20,14 +20,6 @@ type Props = CommonProps & (TextButton | IconButton)
 
 export default function OKButton({style, text, icon, onPress}: Props)
 {
-    const [fontsLoaded] = useFonts({
-        'Teachers-Bold': require('../../assets/fonts/Teachers-Bold.ttf'),
-    });
-
-    if (!fontsLoaded) {
-        return null;
-    }
-
     return <TouchableOpacity style={[styles.Pressable, style]} onPress={onPress} activeOpacity={0.7}>
         <View style={styles.MainView}>
             {text && <Text style={styles.Text}>{text}</Text>}
