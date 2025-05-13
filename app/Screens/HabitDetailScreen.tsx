@@ -1,4 +1,4 @@
-import { View, StyleSheet, Text, Image } from "react-native";
+import { View, StyleSheet, Text, Image, Pressable } from "react-native";
 import Colors from "../Constants/Colors";
 import HabitCreateCard from "../Components/HabitCreateCard";
 import { useEffect, useState } from "react";
@@ -7,8 +7,8 @@ import Row from "../Components/Row";
 import SwitchButton from "../Components/SwitchButton";
 import HabitCreateDescription from "../Components/HabitDescription";
 import OKButton from "../Components/OKButton";
-import { AddHabit, GetHabit, Habit } from "../Functions/Services/Service_Habit";
-import { useLocalSearchParams } from "expo-router";
+import { AddHabit, GetHabit, Habit, updateHabit } from "../Functions/Services/Service_Habit";
+import { router, useLocalSearchParams } from "expo-router";
 import { useFonts } from "expo-font";
 
 export default function HabitDetailScreen()
@@ -24,17 +24,18 @@ export default function HabitDetailScreen()
   });
 
   const {id} = useLocalSearchParams();
+  const habitId = id as string;
   const [habit, setHabit] = useState<Habit | null>(null);
 
   useEffect(() => {
     const loadHabit = async () => {
-      const data = await GetHabit(id.toString())
+      const data = await GetHabit(habitId)
       .then(setHabit)
       .catch(console.error)
     }
 
     loadHabit();
-  }, [id])
+  }, [habitId])
 
   useEffect(() => {
     if (!habit) return;
@@ -50,7 +51,17 @@ export default function HabitDetailScreen()
   }
 
   return <View style={styles.Background}>
-          <Text style={styles.Title}>{"Habit"}</Text>
+          <Pressable onPress={() => router.back()}>
+            <Row style={{alignItems: "center", marginTop:49}}>
+            <Image
+              source={require("@/assets/images/Chevron.png")}
+              style={styles.BackArrow}
+              tintColor={Colors.tint}
+            />
+            <Text style={styles.Title}>{"Habit"}</Text>
+            </Row>
+          </Pressable>
+          
           <View style={styles.Content}>
             <View style={styles.CategoryView}>
               <HabitCreateCard text={newName} onNameChange={setName} editable={editable} streak={habit?.streak}/>
@@ -79,7 +90,13 @@ export default function HabitDetailScreen()
             
             {editable &&
             <View style={styles.OKButtonView}>
-                <OKButton text="OK" onPress={OnPressOK}/>  
+                <OKButton text="OK" onPress={OnPressOK}/>
+            </View>
+            }
+
+            {!editable && 
+            <View style={styles.OKButtonView}>
+              <OKButton icon={require("@/assets/images/EditIcon.png")} onPress={OnPressEditIcon}/>
             </View>
             }
                       
@@ -95,12 +112,19 @@ export default function HabitDetailScreen()
       //Do something, double confirmation
     }
 
-    AddHabit({
+    updateHabit(habitId, {
       name: newName,
       description: description,
       frequency: selectedDays,
       brutalMode: brutalModeEnabled,
-    }, "user_default")
+    })
+
+    setEditable(false)
+  }
+
+  function OnPressEditIcon()
+  {
+    setEditable(true);
   }
 
   function NameIsValid() : boolean
@@ -126,6 +150,7 @@ export default function HabitDetailScreen()
     
     return true;
   }
+  
 }
 
 const styles = StyleSheet.create({
@@ -136,12 +161,14 @@ const styles = StyleSheet.create({
   Content: {
     flex: 1,
   },
+  BackArrow: {
+    width: 48,
+    height: 20,
+    marginTop: 5,
+  },
   Title: {
     fontSize: 32,
-    width: "100%",
     alignSelf: "flex-start",
-    marginLeft: 31,
-    marginTop: 57,
     fontFamily: "Teachers-Bold",
     fontWeight: "bold",
     color: Colors["tint"],
