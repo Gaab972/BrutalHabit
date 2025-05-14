@@ -3,19 +3,19 @@ export function GetDayName(date: Date) : string {
     switch(dayWeekNumber)
     {
         case 0:
-            return "Dimanche"
+            return "Sunday"
         case 1:
-            return "Lundi"
+            return "Monday"
         case 2:
-            return "Mardi"
+            return "Tuesday"
         case 3:
-            return "Mercredi"
+            return "Wednesday"
         case 4:
-            return "Jeudi"
+            return "Thursday"
         case 5:
-            return "Vendredi"
+            return "Friday"
         case 6:
-            return "Samedi"
+            return "Saturday"
         default:
             return "ERROR"
     }
@@ -26,29 +26,29 @@ export function GetMonthName(date: Date): string {
     switch(monthNumber)
     {
         case 0:
-            return "Janvier"
+            return "January"
         case 1:
-            return "Février"
+            return "February"
         case 2:
-            return "Mars"
+            return "March"
         case 3:
-            return "Avril"
+            return "April"
         case 4:
-            return "Mai"
+            return "May"
         case 5:
-            return "Juin"
+            return "June"
         case 6:
-            return "Juillet"
+            return "July"
         case 7:
-            return "Août"
+            return "August"
         case 8:
-            return "Septembre"
+            return "September"
         case 9:
-            return "Octobre"
+            return "October"
         case 10:
-            return "Novembre"
+            return "November"
         case 11:
-            return "Décembre"
+            return "December"
         default:
             return "ERROR"
     }
