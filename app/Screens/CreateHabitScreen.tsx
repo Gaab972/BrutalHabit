@@ -8,6 +8,7 @@ import SwitchButton from "../Components/SwitchButton";
 import HabitCreateDescription from "../Components/HabitDescription";
 import OKButton from "../Components/OKButton";
 import { AddHabit } from "../Functions/Services/Service_Habit";
+import { router } from "expo-router";
 
 export default function CreateHabitScreen()
 {
@@ -58,6 +59,8 @@ export default function CreateHabitScreen()
       frequency: selectedDays,
       brutalMode: brutalModeEnabled,
     }, "user_default")
+
+    router.back();
   }
 
   function NameIsValid() : boolean
