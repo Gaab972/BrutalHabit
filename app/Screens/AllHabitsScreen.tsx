@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet } from "react-native";
 import { Colors } from "../Constants/Colors";
 import HabitCard from "../Components/HabitCard";
-import { GetHabits, Habit } from "../Functions/Services/Service_Habit";
+import { SubscribeToHabits, Habit } from "../Functions/Services/Service_Habit";
 import { useEffect, useState } from "react";
 import NewHabitCard from "../Components/NewHabitCard";
 import BottomNavBar from "../Components/BottomNavBar";
@@ -11,12 +11,8 @@ export default function AllHabitsScreen() {
 const [habits, setHabits] = useState<Habit[]>([]);
 
 useEffect(() => {
-  const loadHabits = async () => {
-    const data = await GetHabits("user_default");
-    setHabits(data);
-  };
-
-  loadHabits();
+  const unsubscribe = SubscribeToHabits("user_default", setHabits);
+  return () => unsubscribe();
 }, []);
 
   return (

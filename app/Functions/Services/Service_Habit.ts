@@ -9,6 +9,8 @@ import {
   deleteDoc,
   doc,
   getDoc,
+  onSnapshot,
+  Unsubscribe,
 } from 'firebase/firestore';
 
 export type HabitData = {
@@ -71,6 +73,37 @@ export const GetHabits = async (userId: string) : Promise<Habit[]> => {
       };
     });
 };
+
+
+export const SubscribeToHabits = (userId: string, OnSnapshotCallback: (habits: Habit[]) => void) : Unsubscribe => 
+{
+  const queryUserHabits = query(collection(database, "habits"), where("userId", "==", userId));
+  const unsubscribe = onSnapshot(queryUserHabits, (querySnapshot) => {
+    const habits = querySnapshot.docs.map((doc) => {
+      const data = doc.data();
+      
+      return {
+        id: doc.id,
+        name: data.name,
+        description: data.description ?? "",
+        frequency: data.frequency,
+        brutalMode: data.brutalMode,
+        userId: data.userId,
+        streak: data.streak,
+        maxStreak: data.maxStreak,
+        completionDates: (data.completionDates ?? []).map((c: any) => ({
+          date: c.date.toDate?.() ?? new Date(c.date),
+          completed: c.completed,
+        })),
+        createdAt: data.createdAt,
+      };
+  })
+
+  OnSnapshotCallback(habits);
+});
+
+return unsubscribe;
+}
 
 export const GetHabit = async (habitId: string) : Promise<Habit | null> => {
   const habitRef = doc(database, "habits", habitId)
