@@ -35,18 +35,21 @@ export default function HabitCheckCard({id, name, streak, isChecked, state, comp
           />
         </View>
         
-        {state === "later" ? (
-          <Ionicons style={styles.Checkbox} name="lock-closed" size={25} color="#aaa" />
+        {state === "later" ? (<View style={styles.CheckboxView}>
+
+          <Image source={require("@/assets/images/padlock.png")} style={styles.Padlock}/>
+        </View>
         ) : (
+          <View style={styles.CheckboxView}>
+            <TouchableOpacity onPress={(OnCheckboxTap)} disabled={state !== "today"}>
+              {newIsChecked ? (
+                <Ionicons name="checkbox" size={25} color="#2F90EB" />
+              ) : (
+                <Ionicons name="square-outline" size={25} color="#aaa" />
+              )}
 
-          <TouchableOpacity style={styles.Checkbox} onPress={(OnCheckboxTap)} disabled={state !== "today"}>
-            {newIsChecked ? (
-              <Ionicons name="checkbox" size={25} color="#2F90EB" />
-            ) : (
-              <Ionicons name="square-outline" size={25} color="#aaa" />
-            )}
-
-          </TouchableOpacity>
+            </TouchableOpacity>
+          </View>
         )}
       </View>
     );
@@ -96,12 +99,18 @@ const styles = StyleSheet.create({
         marginLeft: 18.5,
         fontSize: 12,
     },
-    Checkbox : {
-        position: "absolute",
-        alignSelf: "flex-end",
-        top: "50%",
-        transform: [{ translateY: -25 / 2 }], // ou valeur fixe ex. -20
-        right: 28,
+    CheckboxView: {
+      position: "absolute",
+      alignSelf: "flex-end",
+      alignItems: "center",
+      justifyContent: "center",
+      width: 32,
+      height: "100%",
+      right: 20,
+    },
+    Padlock : {
+      width: 32,
+      height: 32,
     }
 })
 
