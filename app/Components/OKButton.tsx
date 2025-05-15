@@ -1,29 +1,20 @@
 import { Image, StyleSheet, View, ViewProps, Text, TouchableOpacity, ImageSourcePropType } from "react-native";
 import Colors from "../Constants/Colors";
-import { useFonts } from "expo-font";
 
-type CommonProps = ViewProps & {
+type Props = ViewProps & {
     onPress: () => void;
+    color?: string;
+    text?: string,
+    icon?: ImageSourcePropType,
+    iconColor?: string,
 }
 
-type TextButton = {
-    text: string,
-    icon?: never,
-}
-
-type IconButton = {
-    icon: ImageSourcePropType
-    text?: never;
-}
-
-type Props = CommonProps & (TextButton | IconButton)
-
-export default function OKButton({style, text, icon, onPress}: Props)
+export default function OKButton({style, color, text, icon, iconColor, onPress}: Props)
 {
     return <TouchableOpacity style={[styles.Pressable, style]} onPress={onPress} activeOpacity={0.7}>
-        <View style={styles.MainView}>
+        <View style={[styles.MainView, { backgroundColor: color ?? Colors.tint }]}>
             {text && <Text style={styles.Text}>{text}</Text>}
-            {icon && <Image source={icon} style={{ width:32, height:32}}/>}
+            {icon && <Image source={icon} style={{ width:32, height:32}} tintColor={iconColor ?? ""}/>}
         </View>
     </TouchableOpacity>
 }
