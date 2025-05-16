@@ -5,6 +5,7 @@ import { useState } from "react";
 import DateCalendar from "../Components/DateCalendar";
 import HabitCheckCardGroup from "../Components/HabitCheckCardGroup";
 import BottomNavBar from "../Components/BottomNavBar";
+import BurgerMenu from "../Components/BurgerMenu";
 
 export default function DailyHabitsScreen() 
 {
@@ -12,6 +13,7 @@ export default function DailyHabitsScreen()
 
   return (
     <View style={styles.MainBackground}>
+      <BurgerMenu/>
       <Text style={styles.Title}>{GetDateTitle(selectedDate)}</Text>
       <DateCalendar onDateSelected={setSelectedDate}/>
       <HabitCheckCardGroup date={selectedDate}/>

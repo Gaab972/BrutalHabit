@@ -1,10 +1,11 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Image } from "react-native";
 import { Colors } from "../Constants/Colors";
 import HabitCard from "../Components/HabitCard";
 import { SubscribeToHabits, Habit } from "../Functions/Services/Service_Habit";
 import { useEffect, useState } from "react";
 import NewHabitCard from "../Components/NewHabitCard";
 import BottomNavBar from "../Components/BottomNavBar";
+import BurgerMenu from "../Components/BurgerMenu";
 
 export default function AllHabitsScreen() {
 
@@ -18,9 +19,10 @@ useEffect(() => {
   return (
     <View style={styles.MainBackground}>
         <Text style={styles.Title}>Habits</Text>
+        <BurgerMenu/>
         <View style={styles.HabitBackground}>
             {habits.map((habit) => (<HabitCard key={habit.id} {...habit} />))}
-            <NewHabitCard/>
+            <NewHabitCard/> 
         </View>
     <BottomNavBar selectedPage="AllHabits"/>
     </View>
@@ -52,4 +54,12 @@ const styles = StyleSheet.create({
     gap: 10,
     alignItems: "center",
   },
+  BurgerMenuIcon: {
+    width: 32,
+    height: 32,
+    position: "absolute",
+    right: 20,
+    marginTop: 10,
+    opacity: 0.75,
+  }
 });
