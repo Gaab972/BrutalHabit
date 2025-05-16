@@ -2,37 +2,46 @@ import { useState } from "react";
 import { View, Image, StyleSheet, Modal, Pressable, Text } from "react-native";
 import Colors from "../Constants/Colors";
 import Row from "./Row";
+import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
+import { Link } from "expo-router";
 
 export default function BurgerMenu()
 {
     const [isVisible, setIsVisible] = useState(false);
     return (
-        <>
         <View style={styles.Container}>
             <Pressable onPress={() => setIsVisible((prev) => !prev)}>
                 {!isVisible && <Image source={require("@/assets/images/burger-bar.png")} style={styles.BurgerMenuIcon}></Image>}
                 {isVisible && <Image source={require("@/assets/images/CloseIcon.png")} style={styles.CloseIcon}></Image>}
-                <View style={styles.ModalContainer}>
-                    <Row style={styles.MenuRow} gap={5}>
+                {isVisible &&
+                <Animated.View style={styles.ModalContainer} entering={FadeIn.duration(200)} exiting={FadeOut.duration(200)}>
+                    <Pressable>
+                      <Row style={styles.MenuRow} gap={5}>
                         <Image source={require("@/assets/images/Account.png")} style={styles.MenuIcon}></Image>
                         <Text style={styles.MenuText}>Account</Text>
-                    </Row>
-                    <Row style={styles.MenuRow} gap={5}>
-                        <Image source={require("@/assets/images/padlock.png")} style={styles.MenuIcon}></Image>
-                        <Text style={styles.MenuText}>Brutal Mode</Text>
-                    </Row>
-                </View>
+                      </Row>
+                    </Pressable>
+                    
+                    <Link href={{pathname: "/Screens/BrutalModeScreen"}} asChild>
+                      <Pressable>
+                        <Row style={styles.MenuRow} gap={5}>
+                            <Image source={require("@/assets/images/Skull.png")} style={styles.MenuIcon}></Image>
+                            <Text style={styles.MenuText}>Brutal Mode</Text>
+                        </Row>
+                      </Pressable>
+                    </Link>
+                </Animated.View>
+                }
             </Pressable>
             
         </View>
-        {/* <Modal transparent visible={isVisible} onRequestClose={() => setIsVisible(false)} animationType="fade">
-                <Pressable onPress={() => setIsVisible(false)}>
-                    <View style={styles.CloseMenuView}>
+        // {/* <Modal transparent visible={isVisible} onRequestClose={() => setIsVisible(false)} animationType="fade">
+        //         <Pressable onPress={() => setIsVisible(false)}>
+        //             <View style={styles.CloseMenuView}>
                         
-                    </View>
-                </Pressable>
-            </Modal> */}
-        </>
+        //             </View>
+        //         </Pressable>
+        //     </Modal> */}
     )
 }
 
