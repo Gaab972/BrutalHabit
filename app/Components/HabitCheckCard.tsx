@@ -5,6 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native';
 import { useState } from "react";
 import { CompletionDate, updateHabit } from "../Functions/Services/Service_Habit";
+import Checkbox from "./Checkbox";
 
 
 type State = "earlier" | "today" | "later";
@@ -40,16 +41,17 @@ export default function HabitCheckCard({id, name, streak, isChecked, state, comp
           <Image source={require("@/assets/images/padlock.png")} style={styles.Padlock}/>
         </View>
         ) : (
-          <View style={styles.CheckboxView}>
-            <TouchableOpacity onPress={(OnCheckboxTap)} disabled={state !== "today"}>
-              {newIsChecked ? (
-                <Ionicons name="checkbox" size={25} color="#2F90EB" />
-              ) : (
-                <Ionicons name="square-outline" size={25} color="#aaa" />
-              )}
+          <Checkbox isChecked={newIsChecked} onPress={OnCheckboxTap} disabled={state !== "today"}/>
+          // <View style={styles.CheckboxView}>
+          //   <TouchableOpacity onPress={(OnCheckboxTap)} disabled={state !== "today"}>
+          //     {newIsChecked ? (
+          //       <Ionicons name="checkbox" size={25} color="#2F90EB" />
+          //     ) : (
+          //       <Ionicons name="square-outline" size={25} color="#aaa" />
+          //     )}
 
-            </TouchableOpacity>
-          </View>
+          //   </TouchableOpacity>
+          // </View>
         )}
       </View>
     );
