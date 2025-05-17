@@ -9,12 +9,17 @@ export default function BurgerMenu()
 {
     const [isVisible, setIsVisible] = useState(false);
     return (
-        <View style={styles.Container}>
+      <>
+      <View style={styles.Container}>
             <Pressable onPress={() => setIsVisible((prev) => !prev)}>
                 {!isVisible && <Image source={require("@/assets/images/burger-bar.png")} style={styles.BurgerMenuIcon}></Image>}
                 {isVisible && <Image source={require("@/assets/images/CloseIcon.png")} style={styles.CloseIcon}></Image>}
-                {isVisible &&
-                <Animated.View style={styles.ModalContainer} entering={FadeIn.duration(200)} exiting={FadeOut.duration(200)}>
+            </Pressable>
+            
+        </View>
+        <Modal transparent visible={isVisible} onRequestClose={Hide} animationType="fade">
+            <Pressable onPress={Hide} style={styles.Backdrop}>
+              <View style={styles.ModalContainer}>
                     <Pressable>
                       <Row style={styles.MenuRow} gap={5}>
                         <Image source={require("@/assets/images/Account.png")} style={styles.MenuIcon}></Image>
@@ -23,26 +28,23 @@ export default function BurgerMenu()
                     </Pressable>
                     
                     <Link href={{pathname: "/Screens/BrutalModeScreen"}} asChild>
-                      <Pressable>
+                      <Pressable onPress={Hide}>
                         <Row style={styles.MenuRow} gap={5}>
                             <Image source={require("@/assets/images/Skull.png")} style={styles.MenuIcon}></Image>
                             <Text style={styles.MenuText}>Brutal Mode</Text>
                         </Row>
                       </Pressable>
                     </Link>
-                </Animated.View>
-                }
+                </View>
             </Pressable>
-            
-        </View>
-        // {/* <Modal transparent visible={isVisible} onRequestClose={() => setIsVisible(false)} animationType="fade">
-        //         <Pressable onPress={() => setIsVisible(false)}>
-        //             <View style={styles.CloseMenuView}>
-                        
-        //             </View>
-        //         </Pressable>
-        //     </Modal> */}
+        </Modal>
+      </>
     )
+
+    function Hide()
+    {
+      setIsVisible(false);
+    }
 }
 
 const styles = StyleSheet.create({
@@ -50,14 +52,15 @@ const styles = StyleSheet.create({
     position: "absolute",
     right: 20,
     marginTop: 10,
+    zIndex: 1
   },
-  CloseMenuView: {
+  Backdrop: {
     flex: 1,
-    backgroundColor: "red"
   },
   ModalContainer: {
     position: "absolute",
-    right: 36,
+    marginTop: 10,
+    right: 52,
     backgroundColor: Colors.lightWhite,
     width: 150,
     height: 100,

@@ -242,14 +242,15 @@ const styles = StyleSheet.create({
     width: "80%",
     height: "20%",
     backgroundColor: Colors.lightWhite,
-    borderWidth: 3,
-    borderColor: Colors.tint,
+    // borderWidth: 3,
+    elevation: 10,
+    // borderColor: Colors.tint,
     borderRadius: 10,
     
   },
   DeleteModalText:{
     fontSize: 14,
-    marginTop: 10,
+    marginTop: 20,
     fontFamily: "Teachers-SemiBold",
     textAlign: "center",
   }
