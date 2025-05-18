@@ -1,18 +1,20 @@
-import { View, Text, StyleSheet, Image } from "react-native";
+import { View, Text, StyleSheet, Image, ScrollView } from "react-native";
 import Colors from "../Constants/Colors";
 import Row from "../Components/Row";
 import Checkbox from "../Components/Checkbox";
 import { useState } from "react";
+import PaymentCard from "../Components/PaymentCard";
 
 export default function BrutalModeScreen()
 {
     const [isAuthtorize, setIsAuthorize] = useState(false);
 
     return (
-    <View style={styles.MainBackground}> 
+    <ScrollView style={styles.Container} contentContainerStyle={styles.Content} keyboardShouldPersistTaps={true}> 
         <Row style={styles.RowTitle}>
+          <Image source={require("@/assets/images/Skull.png")} style={styles.SkullIcon}/>
             <Text style={styles.Title}>Brutal Mode</Text>
-            <Image source={require("@/assets/images/Skull.png")} style={styles.SkullIcon}/>
+            
         </Row>
         <Text style={styles.ParagraphTitle}>How does it work?</Text>
         <Text style={styles.ParagraphText}>
@@ -29,19 +31,24 @@ export default function BrutalModeScreen()
         </Row>
         
         <Text style={styles.ParagraphTitle}>Payment method</Text>
-    </View>
+     
+        <PaymentCard style={styles.paymentCard}/>
+
+    </ScrollView>
     )
 }
 
 const styles = StyleSheet.create({
-  MainBackground: {
+  Container: {
     flex: 1,
     backgroundColor: Colors["greyWhite"],
   },
+  Content: {
+    flexGrow: 1,
+  },
   RowTitle: {
-    marginLeft: 31,
+    marginLeft: 10,
     marginTop: 57,
-    justifyContent: "center"
   },
   Title: {
     fontSize: 32,
@@ -58,11 +65,14 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontFamily: "Teachers-SemiBold",
     marginVertical: 25,
-    marginLeft: 17,
+    marginLeft: 22,
   },
   ParagraphText: {
-    marginLeft: 17,
+    marginLeft: 22,
     fontSize: 16,
     fontFamily: "TeachersMedium",
   },
+  paymentCard: {
+    marginBottom: 20,
+  }
 });

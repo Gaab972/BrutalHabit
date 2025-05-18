@@ -1,5 +1,6 @@
 import { useFonts } from "expo-font";
 import DailyHabitsScreen from "./Screens/DailyHabitsScreen";
+import { StripeProvider } from '@stripe/stripe-react-native';
 
 export default function Index() 
 {
@@ -9,5 +10,7 @@ export default function Index()
 
   if (!fontsLoaded || !fontsLoaded1 || !fontsLoaded2) return null;
 
-  return <DailyHabitsScreen/>
+  return <StripeProvider publishableKey="pk_test_51RPeuDCtrWtcy49ptEpdguouu7IbiOssEfF9HWx6fxi6KTYJCDZIdEEh0vYnKD0YeqsDbYWqWat2hPjjK4G5sQMg00X0x0zgp4">
+    <DailyHabitsScreen/>
+  </StripeProvider> 
 }
