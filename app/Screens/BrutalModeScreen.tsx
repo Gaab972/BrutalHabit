@@ -2,12 +2,39 @@ import { View, Text, StyleSheet, Image, ScrollView } from "react-native";
 import Colors from "../Constants/Colors";
 import Row from "../Components/Row";
 import Checkbox from "../Components/Checkbox";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PaymentCard from "../Components/PaymentCard";
+import { doc, getDoc } from "firebase/firestore";
+import { database } from "@/firebaseConfig";
 
 export default function BrutalModeScreen()
 {
     const [isAuthtorize, setIsAuthorize] = useState(false);
+    const [hasPaymentMethod, setHasPaymentMethod] = useState(false);
+    const [cardInfo, setCardInfo] = useState<{ brand: string; last4: string } | null>(null)
+
+    useEffect(() => {
+      const fetchUser = async () => {
+        const userId = "user_default";
+        const userRef = doc(database, "users", userId);
+        const userSnap = await getDoc(userRef);
+        const userData = userSnap.data();
+        if (userData == undefined) return;
+
+        const userDoc = {
+          userId: userData.userId,
+          stripeCustomerId: userData.stripeCustomerId,
+          paymentMethodId: userData.paymentMethodId,
+          cardBrand: userData.cardBrand,
+          cardLast4: userData.cardLast4,
+        }
+
+        if (userDoc.paymentMethodId) {
+          setHasPaymentMethod(true);
+        }
+        
+      }
+    })
 
     return (
     <ScrollView style={styles.Container} contentContainerStyle={styles.Content} keyboardShouldPersistTaps={true}> 
@@ -31,7 +58,7 @@ export default function BrutalModeScreen()
         </Row>
         
         <Text style={styles.ParagraphTitle}>Payment method</Text>
-     
+
         <PaymentCard style={styles.paymentCard}/>
 
     </ScrollView>
