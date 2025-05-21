@@ -1,7 +1,87 @@
-export { createSetupIntent } from "./createSetupIntent";
-export { storeCardDetails } from "./storeCardDetails";
 import * as functions from "firebase-functions";
+import { admin } from "./firebaseAdmin";
+import Stripe from "stripe";
+import * as dotenv from "dotenv";
+dotenv.config();
+// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {});
+functions.setGlobalOptions({ region: "europe-west1" })
 
-export const testFunction = functions.https.onRequest((req, res) => {
-  res.send("Hello from testFunction");
+export const createSetupIntent = functions.https.onRequest(async (req, res) => {
+  try {
+    const {userId} = req.body;
+
+    if (!userId) {
+      res.status(400).send("Missing userId");
+      return;
+    }
+
+    // 🔍 On récupère l'utilisateur dans Firestore
+    const userDoc = await admin
+      .firestore()
+      .collection("users")
+      .doc(userId).get();
+    const userData = userDoc.data();
+
+    let customerId = userData?.stripeCustomerId;
+
+    // 👤 Si pas encore de customer Stripe, on le crée
+    if (!customerId) {
+      const customer = await stripe.customers.create({
+        metadata: {firebaseUID: userId},
+      });
+
+      customerId = customer.id;
+      if (!userDoc.exists) {
+        await admin.firestore().collection("users").doc(userId).set({
+          stripeCustomerId: customerId,
+        });
+      } else {
+        await userDoc.ref.update({stripeCustomerId: customerId});
+      }
+    }
+
+    // 🧾 On crée un SetupIntent
+    const setupIntent = await stripe.setupIntents.create({
+      customer: customerId,
+    });
+
+    res.status(200).json({clientSecret: setupIntent.client_secret});
+  } catch (err) {
+    console.error("Erreur createSetupIntent:", err);
+    res.status(500).send("Internal server error");
+  }
+});
+
+export const storeCardDetails = functions.https.onRequest(async (req, res) => {
+  try {
+    const { userId, paymentMethodId } = req.body;
+
+    if (!userId || !paymentMethodId) {
+      res.status(400).send("Missing userId or paymentMethodId");
+      return;
+    }
+
+    const paymentMethod = await stripe.paymentMethods.retrieve(paymentMethodId);
+    const brand = paymentMethod.card?.brand;
+    const last4 = paymentMethod.card?.last4;
+
+    if (!brand || ! last4)
+    {
+      res.status(400).send("Invalid payment method data");
+      return;
+    }
+
+    const userRef = admin.firestore().collection("users").doc(userId);
+    await userRef.update({
+      paymentMethodId,
+      cardBrand: brand,
+      cardLast4: last4,
+    })
+
+    res.status(200).send("Card details stored successfully")
+  } catch (err) {
+    console.error("Erreur storeCardDetails:", err);
+    res.status(500).send("Internal server error");
+  }
 });
