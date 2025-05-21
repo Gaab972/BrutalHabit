@@ -5,7 +5,6 @@ import * as dotenv from "dotenv";
 
 // 🔐 Initialise Firebase Admin SDK
 admin.initializeApp();
-
 dotenv.config();
 
 // eslint-disable-next-line max-len
@@ -53,6 +52,39 @@ export const createSetupIntent = functions.https.onRequest(async (req, res) => {
     res.status(200).json({clientSecret: setupIntent.client_secret});
   } catch (err) {
     console.error("Erreur createSetupIntent:", err);
+    res.status(500).send("Internal server error");
+  }
+});
+
+export const storeCardDetails = functions.https.onRequest(async (req, res) => {
+  try {
+    const { userId, paymentMethodId } = req.body;
+
+    if (!userId || !paymentMethodId) {
+      res.status(400).send("Missing userId or paymentMethodId");
+      return;
+    }
+
+    const paymentMethod = await stripe.paymentMethods.retrieve(paymentMethodId);
+    const brand = paymentMethod.card?.brand;
+    const last4 = paymentMethod.card?.last4;
+
+    if (!brand || ! last4)
+    {
+      res.status(400).send("Invalid payment method data");
+      return;
+    }
+
+    const userRef = admin.firestore().collection("users").doc(userId);
+    await userRef.update({
+      paymentMethodId,
+      cardBrand: brand,
+      cardLast4: last4,
+    })
+
+    res.status(200).send("Card details stored successfully")
+  } catch (err) {
+    console.error("Erreur storeCardDetails:", err);
     res.status(500).send("Internal server error");
   }
 });
