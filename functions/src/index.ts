@@ -1,7 +1,7 @@
-import * as functions from "firebase-functions";
 import * as admin from "firebase-admin";
 import Stripe from "stripe";
-import * as dotenv from "dotenv";
+import dotenv from "dotenv";
+import { onRequest } from "firebase-functions/v2/https";
 
 // 🔐 Initialise Firebase Admin SDK
 admin.initializeApp();
@@ -10,7 +10,7 @@ dotenv.config();
 // eslint-disable-next-line max-len
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {});
 
-export const createSetupIntent = functions.https.onRequest(async (req, res) => {
+export const createSetupIntent = onRequest({ region:"europe-west1" }, async (req, res) => {
   try {
     const {userId} = req.body;
 
@@ -56,7 +56,7 @@ export const createSetupIntent = functions.https.onRequest(async (req, res) => {
   }
 });
 
-export const storeCardDetails = functions.https.onRequest(async (req, res) => {
+export const storeCardDetails = onRequest({ region:"europe-west1" }, async (req, res) => {
   try {
     const { userId, paymentMethodId } = req.body;
 
