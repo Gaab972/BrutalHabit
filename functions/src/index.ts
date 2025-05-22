@@ -77,7 +77,6 @@ export const storeCardDetails = onRequest({ region:"europe-west1" }, async (req,
 
     const userRef = admin.firestore().collection("users").doc(userId);
     await userRef.update({
-      paymentMethodId,
       cardBrand: brand,
       cardLast4: last4,
     })
