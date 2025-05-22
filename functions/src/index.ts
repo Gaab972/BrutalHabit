@@ -68,6 +68,8 @@ export const storeCardDetails = onRequest({ region:"europe-west1" }, async (req,
     const paymentMethod = await stripe.paymentMethods.retrieve(paymentMethodId);
     const brand = paymentMethod.card?.brand;
     const last4 = paymentMethod.card?.last4;
+    const exp_month = paymentMethod.card?.exp_month;
+    const exp_year = paymentMethod.card?.exp_year;
 
     if (!brand || ! last4)
     {
@@ -79,6 +81,8 @@ export const storeCardDetails = onRequest({ region:"europe-west1" }, async (req,
     await userRef.update({
       cardBrand: brand,
       cardLast4: last4,
+      cardExp_month: exp_month,
+      cardExp_year: exp_year,
     })
 
     res.status(200).send("Card details stored successfully")
