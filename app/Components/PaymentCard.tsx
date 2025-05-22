@@ -16,7 +16,7 @@ export default function PaymentCard({style, cardBrand, cardLast4, exp_month, exp
     return <Row style={[styles.container, style]} gap={10}>
         <Text style={styles.textBrand}>💳 {cardBrand.toUpperCase()}</Text>
         <View style={styles.verticalSeparator}/>
-        <Text style={[styles.text , {alignSelf: "center"}]}>**** **** **** {cardLast4.toUpperCase()}</Text>
+        <View style={styles.textView}><Text style={[styles.text , {}]}>**** **** **** {cardLast4.toUpperCase()}</Text></View>
         <View style={[styles.verticalSeparator, {marginLeft: "auto"}]}/>
         <Text style={[styles.text, {marginLeft: "auto"}]}>{exp_month.toString().padStart(2, '0')}/{exp_year}</Text>
     </Row>
@@ -44,8 +44,8 @@ const styles = StyleSheet.create({
         fontFamily: "TeachersMedium"
     },
     icon: {
-    width: 24,
-    height: 24,
+        width: 24,
+        height: 24,
     },
     verticalSeparator: {
         width: 2,
@@ -53,5 +53,9 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.black,
         opacity: 0.3,
         borderRadius: 1,
+    },
+    textView: {
+        flex: 1,
+        alignItems: "center",
     }
 })
