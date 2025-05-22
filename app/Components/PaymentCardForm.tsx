@@ -1,5 +1,6 @@
 import { CardForm } from "@stripe/stripe-react-native";
 import { View, StyleSheet, ViewProps, Alert } from "react-native";
+import Colors from "../Constants/Colors";
 
 export default function PaymentCardForm({style} : ViewProps)
 {
@@ -17,10 +18,11 @@ export default function PaymentCardForm({style} : ViewProps)
                 textColor: "#000000",
                 placeholderColor: "#999999",
                 fontSize: 16,
-                borderColor: "#e0e0e0",
-                backgroundColor: "#ffffff",
+                fontFamily: "TeachersMedium",
+                backgroundColor: Colors.lightWhite,
                 borderRadius: 10,
                 borderWidth: 1,
+                borderColor: "#e0e0e0",
                 }}
             />
         </View>
@@ -34,6 +36,6 @@ const styles = StyleSheet.create({
     },
     cardForm: {
         height: 265,
-        width: "90%"
+        width: "90%",
     },
 })
