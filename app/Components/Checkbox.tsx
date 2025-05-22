@@ -22,12 +22,6 @@ export default function Checkbox({style, isChecked, onPress, disabled}: Props)
 
 const styles = StyleSheet.create({
     CheckboxView: {
-      position: "absolute",
-      alignSelf: "flex-end",
-      alignItems: "center",
-      justifyContent: "center",
       width: 32,
-      height: "100%",
-      right: 20,
     },
 })
