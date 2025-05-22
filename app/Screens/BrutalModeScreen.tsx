@@ -109,15 +109,15 @@ export default function BrutalModeScreen()
             If you fail to complete your habit, based on the frequency you set, this amount will be debited from your bank account. {"\n\n"}
             You can deactivate the brutal mode at any time.
         </Text>
-        <Text style={styles.ParagraphTitle}>Authorisation</Text>
+        <Text style={[styles.ParagraphTitle, {marginTop: 22}]}>Authorisation</Text>
         <Row>
-            <Checkbox isChecked={isAuthtorize} onPress={() => setIsAuthorize((prev) => !prev)} disabled={false}/>
-            <Text style={styles.ParagraphText}>
-            I authorize the Brutal Habits app to debit the amount associated with my Brutal Habits habit from the payment method provided below.
+            <Checkbox style={styles.checkboxView} isChecked={isAuthtorize} onPress={() => setIsAuthorize((prev) => !prev)} disabled={false}/>
+            <Text style={styles.AuthorizeParagraphText}>
+                 {'\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0'}I authorize the Brutal Habits app to debit the amount associated with my habits from the payment method provided below.
             </Text>
         </Row>
-        
-        <Text style={styles.ParagraphTitle}>Payment method</Text>
+        <View style={[styles.horizontalSeparator]}/>
+        <Text style={[styles.ParagraphTitle, {marginBottom: 15}]}>Payment method</Text>
 
         {/* <PaymentCardForm style={styles.paymentCard}/> */}
         {(!hasPaymentMethod || !cardInfo) && <PaymentCardForm style={styles.paymentCard}/>}
@@ -131,7 +131,7 @@ export default function BrutalModeScreen()
       <Modal visible={isDeleteModalVisible} transparent onRequestClose={() => setIsDeleteModalVisible(false)} animationType="fade">
         <View style={styles.DeleteModalViewPopup}>
           <View style={styles.DeleteModalView}>
-              <Text style={styles.DeleteModalText}>Are you sure you want to delete you payment card?</Text>
+              <Text style={styles.DeleteModalText}>Are you sure you want to delete your payment card?</Text>
               <Row style={{justifyContent: "center", marginTop: 30}} gap={60}>
                 <OKButton text="Yes" onPress={deletePaymentCard}/>
                 <OKButton text="No" onPress={() => setIsDeleteModalVisible(false)}/>
@@ -193,6 +193,7 @@ const styles = StyleSheet.create({
   RowTitle: {
     marginLeft: 10,
     marginTop: 57,
+    marginBottom: 25,
   },
   Title: {
     fontSize: 32,
@@ -208,20 +209,26 @@ const styles = StyleSheet.create({
   ParagraphTitle: {
     fontSize: 20,
     fontFamily: "Teachers-SemiBold",
-    marginVertical: 25,
     marginLeft: 22,
+    marginBottom: 12,
   },
   ParagraphText: {
     marginLeft: 22,
     fontSize: 16,
     fontFamily: "TeachersMedium",
   },
+  AuthorizeParagraphText: {
+    marginLeft: 22,
+    fontSize: 16,
+    fontFamily: "TeachersMedium",
+    lineHeight: 24
+  },
   paymentCard: {
     marginBottom: 20,
   },
   buttonContainer: {
     justifyContent: "center",
-    marginTop: 30,
+    marginTop: 40,
   },
   saveButton: 
   {
@@ -255,5 +262,21 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.black,
     opacity: 0.5,
+  },
+  checkboxView : {
+    position: "absolute",
+    marginLeft: 20,
+    alignSelf: "flex-start",
+    zIndex: 1,
+  },
+  horizontalSeparator: {
+    height: 2,
+    width: "80%",
+    backgroundColor: Colors.black,
+    opacity: 0.3,
+    marginTop: 25,
+    marginBottom: 15,
+    borderRadius: 1,
+    alignSelf: "center"
   }
 });
