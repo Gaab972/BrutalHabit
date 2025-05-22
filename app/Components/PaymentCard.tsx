@@ -14,7 +14,7 @@ export default function PaymentCard({style} : ViewProps)
     const handleSaveCard = async () => {
         try {
             const userId = "user_default";
-            var response = await fetch("https://createsetupintent-3ir4utrw3a-uc.a.run.app", {
+            var response = await fetch("https://createsetupintent-3ir4utrw3a-ew.a.run.app", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -37,7 +37,7 @@ export default function PaymentCard({style} : ViewProps)
             const paymentMethodId = setupIntent?.paymentMethod?.id;
             if (!paymentMethodId) throw new Error("No payment method recovered");
 
-            response = await fetch("", {
+            response = await fetch("https://storecarddetails-3ir4utrw3a-ew.a.run.app", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -73,16 +73,9 @@ export default function PaymentCard({style} : ViewProps)
                 borderWidth: 1,
                 }}
             />
-            <OKButton style={{width: "40%"}} text="Save card" onPress={onPress}/>
+            <OKButton style={{width: "40%"}} text="Save card" onPress={() => handleSaveCard}/>
         </View>
     )
-
-    function onPress()
-    {
-        handleSaveCard();
-    }
-
-    
 }
 
 const styles = StyleSheet.create({
