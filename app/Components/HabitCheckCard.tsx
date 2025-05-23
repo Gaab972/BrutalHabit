@@ -41,7 +41,7 @@ export default function HabitCheckCard({id, name, streak, isChecked, state, comp
           <Image source={require("@/assets/images/padlock.png")} style={styles.Padlock}/>
         </View>
         ) : (
-          <Checkbox isChecked={newIsChecked} onPress={OnCheckboxTap} disabled={state !== "today"}/>
+          <Checkbox style={styles.CheckboxView} isChecked={newIsChecked} onPress={OnCheckboxTap} disabled={state !== "today"}/>
           // <View style={styles.CheckboxView}>
           //   <TouchableOpacity onPress={(OnCheckboxTap)} disabled={state !== "today"}>
           //     {newIsChecked ? (
