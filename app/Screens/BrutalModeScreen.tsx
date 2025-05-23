@@ -109,7 +109,8 @@ export default function BrutalModeScreen()
             If you fail to complete your habit, based on the frequency you set, this amount will be debited from your bank account. {"\n\n"}
             You can deactivate the brutal mode at any time.
         </Text>
-        <Text style={[styles.ParagraphTitle, {marginTop: 22}]}>Authorisation</Text>
+        <View style={[styles.horizontalSeparator]}/>
+        <Text style={[styles.ParagraphTitle]}>Authorisation</Text>
         <Row>
             <Checkbox style={styles.checkboxView} isChecked={isAuthtorize} onPress={() => setIsAuthorize((prev) => !prev)} disabled={false}/>
             <Text style={styles.AuthorizeParagraphText}>
@@ -210,7 +211,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontFamily: "Teachers-SemiBold",
     marginLeft: 22,
-    marginBottom: 12,
+    marginBottom: 14,
   },
   ParagraphText: {
     marginLeft: 22,
@@ -221,14 +222,14 @@ const styles = StyleSheet.create({
     marginLeft: 22,
     fontSize: 16,
     fontFamily: "TeachersMedium",
-    lineHeight: 24
+    lineHeight: 24,
   },
   paymentCard: {
     marginBottom: 20,
   },
   buttonContainer: {
     justifyContent: "center",
-    marginTop: 40,
+    marginTop: 30,
   },
   saveButton: 
   {
@@ -275,7 +276,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.black,
     opacity: 0.3,
     marginTop: 25,
-    marginBottom: 15,
+    marginBottom: 25,
     borderRadius: 1,
     alignSelf: "center"
   }
