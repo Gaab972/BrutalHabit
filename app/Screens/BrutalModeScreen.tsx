@@ -112,9 +112,9 @@ export default function BrutalModeScreen()
         <View style={[styles.horizontalSeparator]}/>
         <Text style={[styles.ParagraphTitle]}>Authorisation</Text>
         <Row>
-            <Checkbox style={styles.checkboxView} isChecked={isAuthtorize} onPress={() => setIsAuthorize((prev) => !prev)} disabled={false}/>
+            <Checkbox style={styles.checkboxView} isChecked={isAuthtorize} onPress={onPressAuthoriseCheckbox} disabled={false}/>
             <Text style={styles.AuthorizeParagraphText}>
-                 {'\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0'}I authorize the Brutal Habits app to debit the amount associated with my habits from the payment method provided below.
+                 {'\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0'}I authorise the Brutal Habits app to debit the amount associated with my habits from the payment method provided below.
             </Text>
         </Row>
         <View style={[styles.horizontalSeparator]}/>
@@ -146,6 +146,16 @@ export default function BrutalModeScreen()
       </Modal>
       </>
     )
+
+    function onPressAuthoriseCheckbox()
+    {
+      const userId = "user_default";
+      setIsAuthorize((prev) => !prev);
+      const userRef = doc(database, "users", userId)
+      updateDoc(userRef, {
+        paymentAuthorise : !isAuthtorize,
+      })
+    }
 
     function onPressSave()
     {
