@@ -2,6 +2,7 @@ import * as admin from "firebase-admin";
 import Stripe from "stripe";
 import dotenv from "dotenv";
 import { onRequest } from "firebase-functions/v2/https";
+import { onSchedule } from "firebase-functions/v2/scheduler";
 
 // 🔐 Initialise Firebase Admin SDK
 admin.initializeApp();
@@ -114,7 +115,12 @@ type Habit = HabitData & {
 }
 
 
-export const resetStreaks = onRequest({ region: "europe-west1" }, async (_, res) => {
+export const resetStreaks = onSchedule(
+  {
+    schedule: "0 0 * * *",
+    timeZone: "Europe/Paris",
+    region: "europe-west1",
+  }, async (_) => {
   try {
     const habits = await admin.firestore().collection("habits").get();
     const yesterday = new Date();
@@ -138,10 +144,8 @@ export const resetStreaks = onRequest({ region: "europe-west1" }, async (_, res)
       }
     }
 
-    res.status(200).send("Habit completion checked successfully");
   } catch (err) {
     console.error("Erreur resetStreaks:", err);
-    res.status(500).send("Internal server error");
   }
 })
 
