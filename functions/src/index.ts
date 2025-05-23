@@ -91,3 +91,63 @@ export const storeCardDetails = onRequest({ region:"europe-west1" }, async (req,
     res.status(500).send("Internal server error");
   }
 });
+
+type HabitData = {
+  name: string;
+  description?: string;
+  frequency: number[];
+  brutalMode: boolean;
+};
+
+type CompletionDate =  {
+  date: Date,
+  completed: boolean,
+}
+
+type Habit = HabitData & {
+    id: string;
+    userId: string;
+    streak: number;
+    maxStreak: number;
+    completionDates: CompletionDate[];
+    createdAt: Date;
+}
+
+
+export const resetStreaks = onRequest({ region: "europe-west1" }, async (_, res) => {
+  try {
+    const habits = await admin.firestore().collection("habits").get();
+    const yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+
+    for (var i = 0; i < habits.docs.length; i++)
+    {
+      var habit = habits.docs[i];
+      var habitData = habit.data() as Habit;
+      for (var j = 0; j < habitData.completionDates.length; j++)
+      {
+        var completionDate = habitData.completionDates[j];
+        if (IsSameDate(yesterday, completionDate.date))
+        {
+          if (completionDate.completed) break;
+
+          await habit.ref.update({
+            streak: 0,
+          })
+        }
+      }
+    }
+
+    res.status(200).send("Habit completion checked successfully");
+  } catch (err) {
+    console.error("Erreur resetStreaks:", err);
+    res.status(500).send("Internal server error");
+  }
+})
+
+function IsSameDate(date1: Date, date2: Date)
+{
+  return date1.getDate() == date2.getDate() 
+  && date1.getMonth() == date2.getMonth() 
+  && date1.getFullYear() == date2.getFullYear();
+}
